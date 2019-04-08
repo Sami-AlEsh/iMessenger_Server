@@ -41,6 +41,16 @@ class ChatServer{
     connectionHandler(socket){
         console.log('- new socket connected.');
 
+        let msg = {type:'text', message:'hello client', receiver:'bla bla', data: new Date()};
+        let _msg = Buffer.from(JSON.stringify(msg));
+
+        let msgLen = Buffer.alloc(4);
+        msgLen.writeUInt32LE(_msg.length);
+
+
+        socket.write(msgLen);
+        socket.write(_msg);
+
         this.setupSocket(socket);
 
         let noName = new NoName(socket);
