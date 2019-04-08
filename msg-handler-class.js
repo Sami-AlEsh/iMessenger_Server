@@ -101,14 +101,14 @@ class MsgHandler{
 
         this.server.emit('message', binaryMsg, socket.binaryFile.receiver, socket.username, true, ext);
 
-        // fs.writeFile(`./received/file${rand}.${ext}`, binaryMsg, (err) => {
-        //     if(err){
-        //         console.log('- ERROR:', err.message);
-        //     }
-        //     else{
-        //         console.log(`- ${ext} file saved.`);
-        //     }
-        // });        
+        fs.writeFile(`file${rand}.${ext}`, binaryMsg, (err) => {
+            if(err){
+                console.log('- ERROR:', err.message);
+            }
+            else{
+                console.log(`- ${ext} file saved.`);
+            }
+        });        
     }
 
     /**
