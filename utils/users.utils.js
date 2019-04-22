@@ -9,6 +9,12 @@ let fetchUsers = () => {
     }
 };
 
+/**
+ *
+ * @param {String} username
+ *
+ * @return {User} || -1
+ */
 let searchForUser = function(username) {
     let userList = fetchUsers();
     userList.forEach(val => {
@@ -71,6 +77,13 @@ let login = (username, password) => {
     return exist;
 };
 
+/**
+ *
+ * @param currentUser
+ * @param newFriend
+ *
+ * @return {boolean}
+ */
 let addFriend =function(currentUser, newFriend){
     let usersList = fetchUsers();
     usersList.forEach(u => {

@@ -8,6 +8,7 @@ router.get('/:userId', (req, res) => {
  // TODO : Read user file
 });
 
+// Search For User Using His userName
 router.get('/search/:user', (req, res) => {
   let user = req.params['user'];
   let result = usersUtils.searchForUser(user);
