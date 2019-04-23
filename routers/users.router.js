@@ -1,6 +1,6 @@
-var express = require('express')
+var express = require('express');
 var router = express.Router();
-const usersUtils = require('utils/users.utils');
+const usersUtils = require('../utils/users.utils');
 
 //GET User Info
 router.get('/:userId', (req, res) => {
@@ -19,6 +19,13 @@ router.get('/search/:user', (req, res) => {
    res.status(200).json({userInfo: null});
   }
 });
+
+
+router.get('/friends/:user', (req, res) => {
+    let reqUser = req.params['user'];
+    let currentUser = usersUtils.searchForUser(reqUser);
+    res.status(200).json({status: 1, })
+})
 
 
 router.post('/addFriend',(req,res)=>{
@@ -41,10 +48,10 @@ router.post('/addFriend',(req,res)=>{
 // router.post('/forgetPass', (req, res) => {
 //
 // });
-
-router.get('/search/:username', (req, res) => {
-
-});
+//
+// router.get('/search/:username', (req, res) => {
+//
+// });
 
 //Get All Users ...
 router.get('/users', (req, res, next) => {
