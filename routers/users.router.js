@@ -1,19 +1,23 @@
-var express = require('express')
+var express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs')
 var router = express.Router();
-const usersUtils = require('utils/users.utils');
+const usersUtils = require('../utils/users.utils');
 
+
+router.use(bodyParser.json());
 //GET User Info
-router.get('/:userId', (req, res) => {
- let userId = req.params['userId'];
- // TODO : Read user file
-});
+// router.get('/:userId', (req, res) => {
+//  let userId = req.params['userId'];
+//  // TODO : Read user file
+// });
 
-// Search For User Using His userName
+// // Search For User Using His userName
 router.get('/search/:user', (req, res) => {
   let user = req.params['user'];
   let result = usersUtils.searchForUser(user);
   if(result) {
-   res.status(200).json({userInfo : result.username})
+   res.status(200).json({userInfo : result.username});
   }
   else {
    res.status(200).json({userInfo: null});

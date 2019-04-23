@@ -70,9 +70,9 @@ router.post('/signup', (req, res, next) => {
     //**                                Add json web token                                    */
     //*****************************************************************************************/
 
-    if(result.err == null){
+    if(result.err != null){
         result.token = null
-        res.statusCode = 200;
+        res.statusCode = 400;
     }
     else{
         let secretKey = fs.readFileSync('./secretKey.key').toString();
@@ -82,7 +82,7 @@ router.post('/signup', (req, res, next) => {
         };
         let token = jwt.sign(payload, secretKey)
         result.token = token;
-        res.statusCode = 400;
+        res.statusCode = 200;
     }
 
     console.log('- ', result);
