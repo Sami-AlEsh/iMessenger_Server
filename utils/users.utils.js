@@ -17,12 +17,24 @@ let fetchUsers = () => {
  */
 let searchForUser = function(username) {
     let userList = fetchUsers();
-    userList.forEach(val => {
-        if(val.username === username) {
-            return val ;
-        }
-    })
-    return -1 ;
+    let res = null ;
+    // TODO : Change to for of
+    var BreakException = {};
+    try {
+        userList.forEach(val => {
+            console.log(val);
+            if (val.username == username) {
+                console.log('=======')
+                console.log(val);
+                res = val;
+
+                throw BreakException;
+            }
+        })
+    } catch (e) {
+        // Do nothing
+        return res;
+    }
 }
 
 let writeUsers = (users) => {
@@ -86,12 +98,20 @@ let login = (username, password) => {
  */
 let addFriend =function(currentUser, newFriend){
     let usersList = fetchUsers();
-    usersList.forEach(u => {
-        if(u.username === currentUser){
-            u.friends.push(newFriend);
-        }
-        return true;
-    });
+    var BreakException = {};
+    try{
+        usersList.forEach(u => {
+            if(u.username == currentUser){
+                u.friends.push(newFriend);
+                writeUsers(usersList);
+            }
+           throw BreakException
+        });
+    }catch (e) {
+
+        return true
+    }
+   return false;
 };
 
 module.exports = {

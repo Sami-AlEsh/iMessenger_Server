@@ -11,12 +11,16 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const PORT = 8080;
 
+const userRoute = require('./routers/users.router');
+const indexRoute = require('./routers/indexRouter');
+
+
 app.use(cors());
 app.use(bodyParser.json());
 
-const indexRoute = require('./routers/indexRouter');
-const userRoute = require('./routers/users.router');
+
+app.use('/index',indexRoute);
+app.use('/user',userRoute);
 
 app.listen(PORT, () => console.log(`Express HTTP Server listening on port ${PORT}!`));
-app.use('/index',indexRoute);
-app.use('/users',userRoute);
+

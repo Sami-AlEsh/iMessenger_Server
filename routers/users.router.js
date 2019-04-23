@@ -1,19 +1,23 @@
 var express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs')
 var router = express.Router();
 const usersUtils = require('../utils/users.utils');
 
-//GET User Info
-router.get('/:userId', (req, res) => {
- let userId = req.params['userId'];
- // TODO : Read user file
-});
 
-// Search For User Using His userName
+// router.use(bodyParser.json());
+//GET User Info
+// router.get('/:userId', (req, res) => {
+//  let userId = req.params['userId'];
+//  // TODO : Read user file
+// });
+
+// // Search For User Using His userName
 router.get('/search/:user', (req, res) => {
   let user = req.params['user'];
   let result = usersUtils.searchForUser(user);
   if(result) {
-   res.status(200).json({userInfo : result.username})
+   res.status(200).json({userInfo : result.username});
   }
   else {
    res.status(200).json({userInfo: null});
@@ -24,7 +28,13 @@ router.get('/search/:user', (req, res) => {
 router.get('/friends/:user', (req, res) => {
     let reqUser = req.params['user'];
     let currentUser = usersUtils.searchForUser(reqUser);
-    res.status(200).json({status: 1, })
+    console.log(currentUser);
+    if(currentUser){
+        console.log(currentUser);
+        res.status(200).json({friends: currentUser.friends });
+    }else {
+        res.status(200).json({friends: null});
+    }
 })
 
 
@@ -34,7 +44,8 @@ router.post('/addFriend',(req,res)=>{
  if(usersUtils.addFriend(currUser, userFriend)) {
   // TODO: RESponse
   res.status(200).json({status : 1});
- }
+ }else
+    res.status(200).json({status : -1});
 });
 
 // router.post('/login', (req, res) => {
