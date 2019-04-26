@@ -9,7 +9,8 @@ const users = require('../utils/users.utils');
 
 let router = express.Router();
 //TODO : Could Be App.use in main.js
-router.use(bodyParser.json());
+
+// router.use(bodyParser.json());
 
 
 

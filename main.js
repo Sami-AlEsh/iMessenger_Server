@@ -1,15 +1,23 @@
+//TCP PORT
 const ChatServer = require('./tcp-server-class');
+let chatServer = new ChatServer(3001, '0.0.0.0');
+chatServer.runServer();
 
+
+//HTTP PORT
 const express = require('express')
 const app = express();
-const PORT = 3000;
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const PORT = 8080;
 
 const userRoute = require('./routers/users.router');
 const indexRoute = require('./routers/indexRouter');
 
-let chatServer = new ChatServer(3001, '0.0.0.0');
 
-chatServer.runServer();
+app.use(cors());
+app.use(bodyParser.json());
+
 
 app.use('/index',indexRoute);
 app.use('/user',userRoute);

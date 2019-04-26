@@ -5,7 +5,7 @@ var router = express.Router();
 const usersUtils = require('../utils/users.utils');
 
 
-router.use(bodyParser.json());
+// router.use(bodyParser.json());
 //GET User Info
 // router.get('/:userId', (req, res) => {
 //  let userId = req.params['userId'];
@@ -25,13 +25,27 @@ router.get('/search/:user', (req, res) => {
 });
 
 
+router.get('/friends/:user', (req, res) => {
+    let reqUser = req.params['user'];
+    let currentUser = usersUtils.searchForUser(reqUser);
+    console.log(currentUser);
+    if(currentUser){
+        console.log(currentUser);
+        res.status(200).json({friends: currentUser.friends });
+    }else {
+        res.status(200).json({friends: null});
+    }
+})
+
+
 router.post('/addFriend',(req,res)=>{
  let currUser= req.body.curr;
  let userFriend= req.body.friend;
  if(usersUtils.addFriend(currUser, userFriend)) {
   // TODO: RESponse
   res.status(200).json({status : 1});
- }
+ }else
+    res.status(200).json({status : -1});
 });
 
 // router.post('/login', (req, res) => {
@@ -45,10 +59,10 @@ router.post('/addFriend',(req,res)=>{
 // router.post('/forgetPass', (req, res) => {
 //
 // });
-
-router.get('/search/:username', (req, res) => {
-
-});
+//
+// router.get('/search/:username', (req, res) => {
+//
+// });
 
 //Get All Users ...
 router.get('/users', (req, res, next) => {
