@@ -98,7 +98,7 @@ class MsgHandler{
      * @param {Buffer} binaryMsg 
      */
     binaryMsgHandler(socket, binaryMsg){
-        this.server.emit('message', binaryMsg, socket.binaryFile.receiver, socket.username, true, ext);
+        this.server.emit('message', binaryMsg, socket.binaryFile.receiver, socket.username, true, socket.binaryFile.extension);
     }
 
     /**
