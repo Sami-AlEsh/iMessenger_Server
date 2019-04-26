@@ -138,7 +138,8 @@ class ChatServer{
             let __msg = {
                 type: 'Text',
                 message: msg.toString(),
-                sender: senderName
+                sender: senderName,
+                sendDate: '2019'
             };
 
            
