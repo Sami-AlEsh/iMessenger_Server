@@ -122,10 +122,25 @@ class ChatServer{
         //msgLen.writeUInt32LE(msg.length);
         
         if(media){
+          
+            let binInfo = {
+                type: 'BinaryFile',
+                extension: ext,
+                sender: senderName,
+                sendDate: '2019' // TODO: fix
+
+            };
+            let binInfoBuff = Buffer.from(JSON.stringify(binInfo));
+            let binInfoBuffLen = Buffer.alloc(4);
+            binInfoBuffLen.writeUInt32LE(binInfoBuff.length);
+
+
             save({ext: ext, file: msg}, media, senderName, receiverName)
             
             msgLen.writeUInt32LE(msg.length);
 
+            receiverSocket.write(binInfoBuffLen);
+            receiverSocket.write(binInfoBuff);
             receiverSocket.write(msgLen);
             receiverSocket.write(msg);
             console.log(`- message (binary) sent from server to ${receiverName}.`);
