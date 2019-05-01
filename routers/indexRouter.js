@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const uuidv1 = require('uuid/v1');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const mail = require('../utils/mail.utils');
+const response = require('../shared/responseForm');
 
 const users = require('../utils/users.utils');
 
@@ -63,7 +65,10 @@ router.post('/signup', (req, res, next) => {
         groupsNum: 0,
         friends: [],
         groups: [],
-        signupData: new Date()
+        signupData: new Date(),
+        // Need Handling
+        verified : false ,
+        generatedCode: null
     }
     
     let result = users.addUser(user);
@@ -85,9 +90,21 @@ router.post('/signup', (req, res, next) => {
         result.token = token;
         res.statusCode = 200;
     }
+    mail.verificationMail(user.username, user.email, user.generatedCode)
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 
     console.log('- ', result);
 
+    //New Response Form Example :
+    response.data = result;
+    response.status = true ;
+    response.errors = null;
+    //Then Send its with : res.json (response)   /-|*__*|-\
     
     res.setHeader('Content-Type', 'application/json');
     res.json(result);

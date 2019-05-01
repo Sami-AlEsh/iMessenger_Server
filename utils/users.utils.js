@@ -78,7 +78,6 @@ let checkDuplication = (users, user) => {
 
 let login = (username, password) => {
     let users = fetchUsers();
-
     let exist = false;
     users.forEach((user) => {
         if(user.username === username && user.password === password){
