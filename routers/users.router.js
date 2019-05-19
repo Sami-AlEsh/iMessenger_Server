@@ -59,12 +59,13 @@ router.post('/addFriend',(req,res)=>{
      response.data = {status: 1} ;
      response.status = true ;
      response.errors = null;
-  res.status(200).json(null);
- }else
-     response.data = null ;
-    response.status = false ;
-    response.errors = {status: -1};
-    res.status(200).json(response);
+  res.status(200).json(response);
+ }else {
+     response.data = null;
+     response.status = false;
+     response.errors = {status: -1};
+     res.status(200).json(response);
+ }
 });
 
 // router.post('/login', (req, res) => {
