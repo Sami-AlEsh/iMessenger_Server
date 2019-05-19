@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const uuidv1 = require('uuid/v1');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -131,12 +131,18 @@ router.post('/login', (req, res, next) => {
         let token = jwt.sign(payload, secretKey)
 
 
+        response.status = true ;
+        response.data = {"login": true, "token":token};
+        response.errors = null;
         res.statusCode = 200;
-        res.json({"login": true, "token":token});
+        res.json(response);
     }
     else{
+        response.status = false ;
+        response.data = null;
+        response.errors = {"login": false};
         res.statusCode = 404;
-        res.json({"login": false});
+        res.json(response);
     }
     next();
 });
@@ -146,19 +152,25 @@ router.get('/logout', (req, res, next) => {
     //fs.writeFileSync('image.png', req.body, 'binary');
     //console.log('<<<<<<<<<<< body written >>>>>>>>>>')
     console.log(req);
+    response.status = true ;
+    response.data = {logout: true};
+    response.errors = null;
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.json({"logout": true});
+    res.json(response);
     next();
 });
 
 router.post('/search', (req, res, next) => {
     console.log(req.body.username);
     console.log(req.body.email);
-    
+
+    response.status = true ;
+    response.data = {search: true};
+    response.errors = null;
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.json({"search": true});
+    res.json(response);
     next();
 });
 

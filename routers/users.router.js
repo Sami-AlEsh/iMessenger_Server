@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs')
 var router = express.Router();
 const usersUtils = require('../utils/users.utils');
+const response = require('../shared/responseForm');
 
 
 // router.use(bodyParser.json());
@@ -17,10 +18,16 @@ router.get('/search/:user', (req, res) => {
   let user = req.params['user'];
   let result = usersUtils.searchForUser(user);
   if(result) {
-   res.status(200).json({userInfo : result.username});
+      response.data = {userInfo : result.username};
+      response.status = true ;
+      response.errors = null;
+   res.status(200).json(response);
   }
   else {
-   res.status(200).json({userInfo: null});
+      response.data =  null;
+      response.status = false ;
+      response.errors = {userInfo: null};
+   res.status(200).json(response);
   }
 });
 
@@ -31,9 +38,15 @@ router.get('/friends/:user', (req, res) => {
     console.log(currentUser);
     if(currentUser){
         console.log(currentUser);
-        res.status(200).json({friends: currentUser.friends });
+        response.data = {friends: currentUser.friends }  ;
+        response.status = true ;
+        response.errors = null;
+        res.status(200).json(response);
     }else {
-        res.status(200).json({friends: null});
+        response.data = null ;
+        response.status = false ;
+        response.errors = {friends: null};
+        res.status(200).json(response);
     }
 })
 
@@ -43,9 +56,15 @@ router.post('/addFriend',(req,res)=>{
  let userFriend= req.body.friend;
  if(usersUtils.addFriend(currUser, userFriend)) {
   // TODO: RESponse
-  res.status(200).json({status : 1});
+     response.data = {status: 1} ;
+     response.status = true ;
+     response.errors = null;
+  res.status(200).json(null);
  }else
-    res.status(200).json({status : -1});
+     response.data = null ;
+    response.status = false ;
+    response.errors = {status: -1};
+    res.status(200).json(response);
 });
 
 // router.post('/login', (req, res) => {
