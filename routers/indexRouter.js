@@ -5,8 +5,19 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const mail = require('../utils/mail.utils');
 const response = require('../shared/responseForm');
-
 const users = require('../utils/users.utils');
+
+const rateLimit = require("express-rate-limit");
+
+const limiterOpts = rateLimit({
+    windowMs: 10 * 60 * 1000, // 15 minutes
+    max: 1000,
+    message : {
+        errors: 'Too Many Reqs, Please Try Again In A While ... ',
+        status: false,
+        data: null
+    }
+});
 
 
 let router = express.Router();
@@ -44,6 +55,7 @@ let router = express.Router();
 */
 router.post('/signup', (req, res, next) => {
     console.log('signup route');
+    console.log(req);
     
     if(!req.body.username || !req.body.password || !req.body.email){
         res.statusCode = 400;
@@ -116,7 +128,8 @@ router.post('/signup', (req, res, next) => {
 
 //-----------------------------------------------------
 
-router.post('/login', (req, res, next) => {
+router.post('/login',limiterOpts ,  (req, res, next) => {
+    console.log(req);
     let exist = users.login(req.body.username, req.body.password);
 
     res.setHeader('Content-Type', 'application/json');
@@ -161,7 +174,7 @@ router.get('/logout', (req, res, next) => {
     next();
 });
 
-router.post('/search', (req, res, next) => {
+router.post('/search', limiterOpts ,(req, res, next) => {
     console.log(req.body.username);
     console.log(req.body.email);
 
