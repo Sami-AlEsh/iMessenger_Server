@@ -9,7 +9,7 @@ const rateLimit = require("express-rate-limit");
 
 const limiterOpts = rateLimit({
     windowMs: 10 * 60 * 1000, // 15 minutes
-    max: 2,
+    max: 1000,
     message : {
         errors: 'Too Many Reqs, Please Try Again In A While ... ',
         status: false,
