@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const mail = require('../utils/mail.utils');
 const response = require('../shared/responseForm');
-
 const users = require('../utils/users.utils');
 
 const rateLimit = require("express-rate-limit");
@@ -56,6 +55,7 @@ let router = express.Router();
 */
 router.post('/signup', (req, res, next) => {
     console.log('signup route');
+    console.log(req);
     
     if(!req.body.username || !req.body.password || !req.body.email){
         res.statusCode = 400;
@@ -129,6 +129,7 @@ router.post('/signup', (req, res, next) => {
 //-----------------------------------------------------
 
 router.post('/login',limiterOpts ,  (req, res, next) => {
+    console.log(req);
     let exist = users.login(req.body.username, req.body.password);
 
     res.setHeader('Content-Type', 'application/json');

@@ -28,6 +28,8 @@ const limiterOpts = rateLimit({
 // // Search For User Using His userName
 router.get('/search/:user', limiterOpts ,(req, res) => {
   let user = req.params['user'];
+    console.log(req);
+    console.log(user);
   let result = usersUtils.searchForUser(user);
   if(result) {
       response.data = {userInfo : result.username};
@@ -46,6 +48,7 @@ router.get('/search/:user', limiterOpts ,(req, res) => {
 
 router.get('/friends/:user',  limiterOpts,  (req, res) => {
     let reqUser = req.params['user'];
+    console.log(reqUser);
     let currentUser = usersUtils.searchForUser(reqUser);
     console.log(currentUser);
     if(currentUser){
@@ -64,6 +67,7 @@ router.get('/friends/:user',  limiterOpts,  (req, res) => {
 
 
 router.post('/addFriend',  limiterOpts  ,(req,res)=>{
+    console.log(req);
  let currUser= req.body.curr;
  let userFriend= req.body.friend;
  if(usersUtils.addFriend(currUser, userFriend)) {
