@@ -5,6 +5,18 @@ var router = express.Router();
 const usersUtils = require('../utils/users.utils');
 const response = require('../shared/responseForm');
 
+const rateLimit = require("express-rate-limit");
+
+const limiterOpts = rateLimit({
+    windowMs: 10 * 60 * 1000, // 15 minutes
+    max: 2,
+    message : {
+        errors: 'Too Many Reqs, Please Try Again In A While ... ',
+        status: false,
+        data: null
+    }
+});
+
 
 // router.use(bodyParser.json());
 //GET User Info
@@ -14,7 +26,7 @@ const response = require('../shared/responseForm');
 // });
 
 // // Search For User Using His userName
-router.get('/search/:user', (req, res) => {
+router.get('/search/:user', limiterOpts ,(req, res) => {
   let user = req.params['user'];
   let result = usersUtils.searchForUser(user);
   if(result) {
@@ -32,7 +44,7 @@ router.get('/search/:user', (req, res) => {
 });
 
 
-router.get('/friends/:user', (req, res) => {
+router.get('/friends/:user',  limiterOpts,  (req, res) => {
     let reqUser = req.params['user'];
     let currentUser = usersUtils.searchForUser(reqUser);
     console.log(currentUser);
@@ -51,7 +63,7 @@ router.get('/friends/:user', (req, res) => {
 })
 
 
-router.post('/addFriend',(req,res)=>{
+router.post('/addFriend',  limiterOpts  ,(req,res)=>{
  let currUser= req.body.curr;
  let userFriend= req.body.friend;
  if(usersUtils.addFriend(currUser, userFriend)) {
@@ -85,7 +97,7 @@ router.post('/addFriend',(req,res)=>{
 // });
 
 //Get All Users ...
-router.get('/users', (req, res, next) => {
+router.get('/users', limiterOpts  , (req, res, next) => {
  fs.readFile('./storage/users.json', (err, data) => {
   if(!err){
    try{
