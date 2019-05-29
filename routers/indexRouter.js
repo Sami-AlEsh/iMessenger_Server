@@ -107,7 +107,7 @@ router.post('/signup', (req, res, next) => {
     //Then Send its with : res.json (response)   /-|*__*|-\
     
     res.setHeader('Content-Type', 'application/json');
-    res.json(result);
+    res.json(response);
     next();
 });
 
