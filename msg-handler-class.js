@@ -103,7 +103,7 @@ class MsgHandler{
         let info = {
             senderName: socket.username,
             receiverName: socket.binaryFile.receiver,
-            sendDate: socket.binaryFile.sendDate,
+            sentDate: socket.binaryFile.sentDate,
             ext: socket.binaryFile.extension,
             type: socket.binaryFile.type
         }
@@ -124,7 +124,7 @@ class MsgHandler{
         let info = {
             senderName: socket.username,
             receiverName: textMsg.receiver,
-            sendDate: textMsg.sendDate,
+            sentDate: textMsg.sentDate,
             ext: null,
             type: textMsg.type
         }
