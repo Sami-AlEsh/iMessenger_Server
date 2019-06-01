@@ -1,10 +1,7 @@
-const fs = require('fs');
 const net = require('net');
-const path = require('path');
 const NoName = require('./no-Name');
 const MsgHandler = require('./msg-handler-class');
 const save = require('./message-saver').save;
-const saveOffLine = require('./message-saver').saveOffLine;
 
 class ChatServer{
 
@@ -19,8 +16,7 @@ class ChatServer{
         this.sockets = [];
         this.netServer = null;
     }
-    
-    //create tcp server and link between events and functions
+
     runServer(){
         this.netServer = net.createServer();
         
@@ -28,7 +24,7 @@ class ChatServer{
         this.netServer.on('error', (err) => { this.errorHandler(err); });
         this.netServer.on('close', () => { this.serverCloseHandler(); });
         this.netServer.on('add new socket', (socket) => { this.addNewSocket(socket); });
-        this.netServer.on('message', (msg, info) => { this.send(msg, info); });
+        this.netServer.on('message', (msg, receiverName, senderName, media, ext) => { this.send(msg, receiverName, senderName, media, ext); });
         
         
         
@@ -105,97 +101,74 @@ class ChatServer{
     addNewSocket(socket){
         console.log('- new socket added ...........', socket.username);
         this.sockets.push(socket);
-        this.loadOffLineMsgs(socket);
     }
 
    /**
     * 
     * @param {Buffer} msg 
-    * @param {any} info 
-    *  
+    * @param {String} receiverName 
+    * @param {String} senderName 
+    * @param {Boolean} media 
+    * @param {String} ext 
     */
-    send(msg, info){
-        let receiverSocket = this.getSocket(info.receiverName);
+    send(msg, receiverName, senderName, media, ext){
+        let receiverSocket = this.getSocket(receiverName);
 
         if(receiverSocket === null){
-            saveOffLine(msg, info);
-            //console.log('- receiver is offline .... the message dropped.');
-            return false;
+            console.log('- receiver is offline .... the message dropped.');
+            return;
         }
-        
         let msgLen = Buffer.alloc(4);
-        if(info.type === 'BinaryFile' || info.type === 'Image' || info.type === 'Audio' ){
-
+        //msgLen.writeUInt32LE(msg.length);
+        
+        if(media){
+          
             let binInfo = {
-                type: info.type,
-                extension: info.ext,
-                sender: info.senderName,
-                sendDate: info.sendDate 
+                type: 'BinaryFile',
+                extension: ext,
+                sender: senderName,
+                sendDate: '2019' // TODO: fix
 
             };
             let binInfoBuff = Buffer.from(JSON.stringify(binInfo));
             let binInfoBuffLen = Buffer.alloc(4);
-           
             binInfoBuffLen.writeUInt32LE(binInfoBuff.length);
+
+
+            save({ext: ext, file: msg}, media, senderName, receiverName)
+            
             msgLen.writeUInt32LE(msg.length);
 
-            this._send(binInfoBuffLen, binInfoBuff, receiverSocket)
-            .then((res) => {
-                this._send(msgLen, msg, receiverSocket);
-            });
+            receiverSocket.write(binInfoBuffLen);
+            receiverSocket.write(binInfoBuff);
+            receiverSocket.write(msgLen);
+            receiverSocket.write(msg);
+            console.log(`- message (binary) sent from server to ${receiverName}.`);
 
-            console.log(`- message (binary) sent from ${info.senderName} to ${info.receiverName}.`);
-            // TODO: remove save from here
-            //save({ext: info.ext, file: msg}, true, info.senderName, info.receiverName)
+
 
         }
-        else{ 
+        else{
+            save(msg.toString(), media, senderName, receiverName);
             let __msg = {
-                type: info.type,
+                type: 'Text',
                 message: msg.toString(),
-                sender: info.senderName,
-                sendDate: info.sendDate 
-                
+                sender: senderName,
+                sendDate: '2019'
             };
 
+           
             let _msg = Buffer.from(JSON.stringify(__msg));
-            msgLen.writeUInt32LE(_msg.length);
-            this._send(msgLen, _msg, receiverSocket);            
-            console.log(`- message (text) sent from ${info.senderName} to ${info.receiverName}.`);
-            // TODO: remove save from here
-            //save(msg.toString(), false, info.senderName, info.receiverName);
-        }
-    }
 
-    /**
-     * 
-     * @param {Buffer} msgLen 
-     * @param {Buffer} msg 
-     * @param {net.Socket} socket 
-     * 
-     * @returns {Promise}
-     */
-    _send(msgLen, msg, socket){
-        return new Promise ((resolve, reject) => {
-            socket.write(msgLen, (err) => {
-                if(err){
-                    this.errorHandler(err);
-                    reject(err);
-                  
-                }
-                else{
-                    socket.write(msg, (err) => {
-                        if(err) {
-                            this.errorHandler(err);
-                            reject(err);
-                        }
-                        else{
-                            resolve(true);
-                        }
-                    });
-                }
-            });
-        });
+            msgLen.writeUInt32LE(_msg.length);
+
+
+            receiverSocket.write(msgLen);
+            receiverSocket.write(_msg);
+            console.log(`- message (text) sent from server to ${receiverName}.`);
+
+        }
+
     }
 
     /**
@@ -209,37 +182,6 @@ class ChatServer{
         
         return socket === undefined ? null : socket;
     } 
-
-
-    
-    /**
-     * 
-     * @param {net.Socket} socket 
-     */
-    loadOffLineMsgs(socket){
-        let _path = `./storage/${socket.username}`;
-        fs.promises.readdir(_path)
-        .then((files) => {
-            files = files.filter(file => path.extname(file).toLowerCase() === '.info');
-            for(let i = 0; i< files.length; i++) files[i] = path.basename(files[i], '.info');
-            
-            for(let i=0; i<files.length; i++){
-                let msgInfo;
-                fs.promises.readFile(`${_path}/${files[i]}.info`)
-                .then((info) => {
-                    msgInfo = info;
-                    return fs.promises.readFile(`${_path}/${files[i]}.bin`);
-                })
-                .then((msg) => { // all is array [info, msg]
-                    this.send(msg, JSON.parse(msgInfo));
-                    fs.promises.unlink(`${_path}/${files[i]}.info`);
-                    fs.promises.unlink(`${_path}/${files[i]}.bin`);
-                })
-                .catch((err) => { this.errorHandler(err) });
-            }
-        })
-        .catch((err) => { console.log("- no offline messages for this client"); });
-    }
 };
 
 
