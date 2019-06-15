@@ -1,120 +1,113 @@
-var express = require('express');
-const bodyParser = require('body-parser');
+const express = require('express');
 const fs = require('fs')
-var router = express.Router();
+const router = express.Router();
 const usersUtils = require('../utils/users.utils');
 const response = require('../shared/responseForm');
+const rateLimit = require('../shared/limiterOpts').rateLimit;
 
-const rateLimit = require("express-rate-limit");
+const limiterOpts = rateLimit(1000, 1);
 
-const limiterOpts = rateLimit({
-    windowMs: 10 * 60 * 1000, // 15 minutes
-    max: 1000,
-    message : {
-        errors: 'Too Many Reqs, Please Try Again In A While ... ',
-        status: false,
-        data: null
-    }
+
+// Search For User Using His userName
+// TODO: return list
+router.get('/search/:user', limiterOpts, (req, res, next) => {
+    let user = req.params['user'];
+    let result = usersUtils.searchForSimilirUsers(user);
+    // TODO : no need for error
+    //if(!result) return next(new Error('no one has this username'));
+
+    response.data = result;
+    response.status = true ;
+    response.errors = null;
+    res.json(response);
 });
 
-
-// router.use(bodyParser.json());
-//GET User Info
-// router.get('/:userId', (req, res) => {
-//  let userId = req.params['userId'];
-//  // TODO : Read user file
-// });
-
-// // Search For User Using His userName
-router.get('/search/:user', limiterOpts ,(req, res) => {
-  let user = req.params['user'];
-    console.log(req);
-    console.log(user);
-  let result = usersUtils.searchForUser(user);
-  if(result) {
-      response.data = {userInfo : result.username};
-      response.status = true ;
-      response.errors = null;
-   res.status(200).json(response);
-  }
-  else {
-      response.data =  null;
-      response.status = false ;
-      response.errors = {userInfo: null};
-   res.status(200).json(response);
-  }
-});
-
-
-router.get('/friends/:user',  limiterOpts,  (req, res) => {
+router.get('/friends/:user', limiterOpts, (req, res, next) => {
     let reqUser = req.params['user'];
-    console.log(reqUser);
     let currentUser = usersUtils.searchForUser(reqUser);
-    console.log(currentUser);
-    if(currentUser){
-        console.log(currentUser);
-        response.data = {friends: currentUser.friends }  ;
-        response.status = true ;
-        response.errors = null;
-        res.status(200).json(response);
-    }else {
-        response.data = null ;
-        response.status = false ;
-        response.errors = {friends: null};
-        res.status(200).json(response);
-    }
-})
+    if(!currentUser) return next(new Error('wrong username'));
 
-
-router.post('/addFriend',  limiterOpts  ,(req,res)=>{
-    console.log(req);
- let currUser= req.body.curr;
- let userFriend= req.body.friend;
- if(usersUtils.addFriend(currUser, userFriend)) {
-  // TODO: RESponse
-     response.data = {status: 1} ;
-     response.status = true ;
-     response.errors = null;
-  res.status(200).json(response);
- }else {
-     response.data = null;
-     response.status = false;
-     response.errors = {status: -1};
-     res.status(200).json(response);
- }
+    response.data = currentUser.friends;
+    response.status = true ;
+    response.errors = null;
+    res.json(response);
+    
 });
 
-// router.post('/login', (req, res) => {
+router.post('/addFriend', limiterOpts, (req, res, next) => {
+       
+    let currUser= req.body.current;
+    let userFriend= req.body.friend;
+    if(! usersUtils.addFriend(currUser, userFriend)) return next(new Error('wrong username or friend name'));
+    // TODO: data must be empty
+    response.data = null ;
+    response.status = true ;
+    response.errors = null;
+    res.json(response);
+});
+
+router.get('/lastSeen/:user', limiterOpts, async (req, res, next) => {
+    username = req.params['user'];
+    let result = await usersUtils.getUserLastSeen(username);
+    if(!result) return next(new Error('wrong username'));
+
+    response.status = true;
+    response.errors = null;
+    response.data = result;
+
+    res.json(response);
+});
+
+
+router.post('/blockUser',(req,res, next) => {
+    let blockingResult = userUtils.blockUser(req.body.username, req.body.block);
+    if(blockingResult) {
+      response.status = true;
+      response.errors = null;
+      response.data = null;
+      res.json(response);
+    } else {
+      next(new Error ('User Not Found !'));
+    }
+});
+  
+router.post('/unBlockUser',(req,res,next) => {
+    let unBlockResult = userUtils.unBlockUser(req.body.username, req.body.unblock);
+    if(unBlockingResult) {
+      response.status = true;
+      response.errors = null;
+      response.data = null;
+      res.json(response);
+    } else {
+      next(new Error ('User Not Found !'));
+    }
+});
+  
+router.post('/delete', (req,res,next) => {
+    userUtils.deleteUser(req.body.username, req.body.delete);
+    response.status = true;
+    response.errors = null;
+    response.data = null;
+    res.json(response);
+});
+  
+
+// post -> delete friend || body -> {username, friendName}
+// post -> block friend || body -> {username, friendName}
+// post -> unblock friend || body -> {username, friendName}
+// post -> public key || body -> {username, publicKey}
 //
-// });
-//
-// router.post('/register', (req, res) => {
-//
-// });
-//
-// router.post('/forgetPass', (req, res) => {
-//
-// });
-//
-// router.get('/search/:username', (req, res) => {
-//
-// });
 
 //Get All Users ...
 router.get('/users', limiterOpts  , (req, res, next) => {
- fs.readFile('./storage/users.json', (err, data) => {
-  if(!err){
-   try{
-    res.json(JSON.parse(data.toString()));
-   }catch(e){
-    console.log('- ', e.message);
-   }
-
-  }
-  else{
-   console.log(err);
-  }
- })
+   
+    fs.promises.readFile('./storage/users.json')
+    .then((data) => {
+        res.json(JSON.parse(data.toString()));
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 });
 
 module.exports = router;
