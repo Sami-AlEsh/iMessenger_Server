@@ -4,8 +4,8 @@ const Promise = require('bluebird');
 const transporter = nodemailer.createTransport({
     service: 'Outlook',
     auth:{
-        user: 'TESTING_EMAIL_HERE',
-        pass: 'PASS_WORD_HERE_SOMEONE_CREATE_TEST_ACCOUNT'
+        user: '  ',
+        pass: '  '
     }
 });
 
