@@ -156,7 +156,7 @@ class ChatServer{
                 type: info.type,
                 extension: info.ext,
                 sender: info.senderName,
-                sendDate: info.sendDate 
+                sentDate: info.sentDate 
 
             };
             let binInfoBuff = Buffer.from(JSON.stringify(binInfo));
@@ -177,7 +177,7 @@ class ChatServer{
                 type: info.type,
                 message: msg.toString(),
                 sender: info.senderName,
-                sendDate: info.sendDate 
+                sentDate: info.sentDate 
             };
             let _msg = Buffer.from(JSON.stringify(__msg));
             msgLen.writeUInt32LE(_msg.length);
