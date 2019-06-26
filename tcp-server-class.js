@@ -238,7 +238,7 @@ class ChatServer{
         .then((files) => {
             files = files.filter(file => path.extname(file).toLowerCase() === '.info');
             for(let i = 0; i< files.length; i++) files[i] = path.basename(files[i], '.info');
-            
+            files.reverse();
             for(let i=0; i<files.length; i++){
                 let msgInfo;
                 fs.promises.readFile(`${_path}/${files[i]}.info`)
