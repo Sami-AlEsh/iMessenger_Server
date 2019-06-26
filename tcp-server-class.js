@@ -235,13 +235,13 @@ class ChatServer{
     loadOffLineMsgs(socket){
         let _path = `./storage/${socket.username}`;
         fs.promises.readdir(_path)
-        .then((files) => {
+        .then(async (files) => {
             files = files.filter(file => path.extname(file).toLowerCase() === '.info');
             for(let i = 0; i< files.length; i++) files[i] = path.basename(files[i], '.info');
-            files.reverse();
+            files.sort();
             for(let i=0; i<files.length; i++){
                 let msgInfo;
-                fs.promises.readFile(`${_path}/${files[i]}.info`)
+                await fs.promises.readFile(`${_path}/${files[i]}.info`)
                 .then((info) => {
                     msgInfo = info;
                     return fs.promises.readFile(`${_path}/${files[i]}.bin`);
