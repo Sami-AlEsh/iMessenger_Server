@@ -188,14 +188,21 @@ let blockUser = function (currentUser, blocked) {
     }
     return false ;
 };
-  
+
+/***
+ *
+ * @param currentUser
+ * @param blocked
+ * @return {boolean}
+ */
+
 let unBlockUser = function(currentUser, blocked){
     let usersList = fetchUsers();
     for (let user of usersList) {
       if (user.username == currentUser) {
       let index = user.blockedUsers.indexOf(blocked);
       if (index != -1){
-        usersList.blockedUsers.splice(index,1);
+        user.blockedUsers.splice(index,1);
         console.log(user);
         writeUsers(usersList);
         return true ;
@@ -204,7 +211,13 @@ let unBlockUser = function(currentUser, blocked){
     }
     return false ;
 };
-  
+
+/***
+ *
+ * @param currentUser
+ * @param deleted
+ * @return {boolean}
+ */
   
 let deleteUser = function(currentUser, deleted){
     let usersList = fetchUsers();
@@ -229,15 +242,24 @@ let deleteUser = function(currentUser, deleted){
     return true ;
 };
 
+/***
+ *
+ * @return {Array}
+ */
+
 let getAllUsernames = () => {
     let usernames = [];
     let userList = fetchUsers();
     for(let u of userList) usernames.push(u.username);
     return usernames;
 };
-  
 
 
+/***
+ *
+ * @param str
+ * @return {Array}
+ */
 
 // str coude be any string
 let searchForSimilirUsers = (str) => {
@@ -249,6 +271,13 @@ let searchForSimilirUsers = (str) => {
     }
     return result;
 };
+
+/***
+ *
+ * @param username
+ * @param platform
+ * @param key
+ */
 
 let addPublicKey = (username, platform, key) => {
     let path = `./storage/keys/${username}.${platform}.key`;

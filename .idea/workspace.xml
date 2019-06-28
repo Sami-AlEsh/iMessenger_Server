@@ -2,23 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83eedd94-fcf7-436a-a350-7912b0a87000" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/shared/limiterOpts.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/notifications/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/iMessenger_Server.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/message-saver.js" beforeDir="false" afterPath="$PROJECT_DIR$/message-saver.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/msg-handler-class.js" beforeDir="false" afterPath="$PROJECT_DIR$/msg-handler-class.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net_client.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/no-Name.js" beforeDir="false" afterPath="$PROJECT_DIR$/message-analyzer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/indexRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/indexRouter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/users.router.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/users.router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/storage/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tcp-server-class.js" beforeDir="false" afterPath="$PROJECT_DIR$/tcp-server-class.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/users.utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/users.utils.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -35,7 +18,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
+            <state relative-caret-position="12">
               <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
@@ -44,17 +27,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/users.utils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="297" column="14" selection-start-line="297" selection-start-column="14" selection-end-line="297" selection-end-column="14" />
+            <state relative-caret-position="180">
+              <caret line="197" column="21" selection-start-line="197" selection-start-column="21" selection-end-line="197" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/storage/users.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="433" selection-start-column="433" selection-end-column="433" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routers/users.router.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="98" column="25" selection-start-line="98" selection-start-column="25" selection-end-line="98" selection-end-column="25" />
+            <state relative-caret-position="104">
+              <caret line="86" column="44" lean-forward="true" selection-start-line="86" selection-start-column="44" selection-end-line="86" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -121,6 +113,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>search</find>
+      <find>tareq</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -130,7 +123,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/message-saver.js" />
-        <option value="$PROJECT_DIR$/storage/users.json" />
         <option value="$PROJECT_DIR$/tcp-server-class.js" />
         <option value="$PROJECT_DIR$/utils/mail.utils.js" />
         <option value="$PROJECT_DIR$/shared/responseForm.js" />
@@ -138,6 +130,7 @@
         <option value="$PROJECT_DIR$/routers/indexRouter.js" />
         <option value="$PROJECT_DIR$/routers/users.router.js" />
         <option value="$PROJECT_DIR$/utils/users.utils.js" />
+        <option value="$PROJECT_DIR$/storage/users.json" />
       </list>
     </option>
   </component>
@@ -153,7 +146,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="iMessenger_Server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iMessenger_Server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="iMessenger_Server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iMessenger_Server" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
     </panes>
   </component>
@@ -196,12 +204,12 @@
       <workItem from="1559159201874" duration="4781000" />
       <workItem from="1559946235848" duration="66000" />
       <workItem from="1561500368696" duration="1184000" />
-      <workItem from="1561753208221" duration="292000" />
+      <workItem from="1561753208221" duration="1896000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31817000" />
+    <option name="totallyTimeSpent" value="33421000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -271,13 +279,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/storage/users.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="64" selection-start-column="58" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/message-saver.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
@@ -293,13 +294,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/no-Name.js" />
-    <entry file="file://$PROJECT_DIR$/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routers/indexRouter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1610">
@@ -338,17 +332,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/users.utils.js">
+    <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="297" column="14" selection-start-line="297" selection-start-column="14" selection-end-line="297" selection-end-column="14" />
+        <state relative-caret-position="12">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routers/users.router.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="98" column="25" selection-start-line="98" selection-start-column="25" selection-end-line="98" selection-end-column="25" />
+        <state relative-caret-position="104">
+          <caret line="86" column="44" lean-forward="true" selection-start-line="86" selection-start-column="44" selection-end-line="86" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/users.utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="197" column="21" selection-start-line="197" selection-start-column="21" selection-end-line="197" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/users.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="433" selection-start-column="433" selection-end-column="433" />
         </state>
       </provider>
     </entry>
