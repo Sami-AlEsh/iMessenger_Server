@@ -3,29 +3,26 @@ const uuidv1 = require('uuid/v1');
 
 /**
  * 
- * @param {any} msg 
- * @param {Boolean} media 
- * @param {String} senderName 
- * @param {String} receiverName 
+ * @param {Buffer} msg 
+ * 
+ * @param {any} info 
  */
-let save = (msg, media, senderName, receiverName) => {
+let save = (msg, info) => {
     setTimeout(() => {
-        let path = getPath(senderName, receiverName); ///////////////
-        let fileName = getFileName(senderName, receiverName); ///////////////
+        let path = getPath(info.senderName, info.receiverName); ///////////////
+        let fileName = getFileName(info.senderName, info.receiverName); ///////////////
     
         let exist = fs.existsSync(path);
     
         if(exist){
-            _save(msg, media, senderName, receiverName);
+            _save(msg, info);
         }
         else{
             createFolderAndFile(path, fileName);
-            _save(msg, media, senderName, receiverName);
+            _save(msg, info);
         }
 
-    }, 0)
-   
-
+    }, 0);
 };
 
 /**
@@ -67,52 +64,35 @@ let createFolderAndFile = (path, fileName) => {
 /**
  * 
  * @param {Buffer} msg 
- * @param {Boolean} media 
- * @param {String} senderName 
- * @param {String} receiverName 
+ * 
+ * @param {any} info 
  */
-let _save = (msg, media, senderName, receiverName) => {
-
-    let path = getPath(senderName, receiverName) + '/' + getFileName(senderName, receiverName) + '.json';
-    let data;
+let _save = (msg, info) => {
+    let path = getPath(info.senderName, info.receiverName) + '/' + getFileName(info.senderName, info.receiverName) + '.json';
+    let data = [];
     try{
-        data = JSON.parse(fs.readFileSync(path));
+        let temp = fs.readFileSync(path);
+        data = JSON.parse(temp);
     }catch(e){
         data = [];
-        console.log(e);
     }
          
     let json = {
         id: uuidv1(),
-        sender: senderName,
-        type: '',
-        ext: '',
-        message: ''
-    }
-
-    if(media){
-        json.ext = msg.ext; 
-        json.type = 'binary';
-
-        fs.writeFile(getPath(senderName, receiverName) + '/' + json.id + '.' +json.ext, msg.file, (err) => {
-            if(err){
-                errorPrinter(err);
-            }
-        });
-    }
-
-    else{
-        json.type = 'text';
-        json.message = msg;
-    }
+        sender: info.senderName,
+        type: info.type,
+        ext: info.ext ? info.ext : '',
+        sentDate: info.sentDate,
+        message: info.media ? '' : msg.toString()
+    };
 
     data.push(json);
-    fs.writeFile(path, JSON.stringify(data), (err) => {
-        if(err){
-            errorPrinter(err);
-        }
-    });
+    fs.writeFileSync(path, JSON.stringify(data));
 
+    if(info.type === 'BinaryFile'|'Image'|'Audio'){
+        fs.promises.writeFile(getPath(info.senderName, info.receiverName) + '/' + json.id + '.' +json.ext, msg)
+       .catch((err) => errorPrinter(err));
+    }
 };
 
 /**
@@ -125,6 +105,70 @@ let errorPrinter = (err) =>{
     console.log('-', err.stack)
 }
 
+/**
+ * 
+ * @param {Buffer} msg 
+ * @param {any} info 
+ */
+let saveOffLine = (msg, info) =>{
+    let path = `./storage/${info.receiverName}`;
+    fs.exists(path, (exist) => {
+        if(exist){
+           _saveOffLine(msg, info, path);
+        }
+        else{
+            fs.mkdir(path, (err) => {
+                _saveOffLine(msg, info, path);    
+            });
+        }
+
+    });
+
+};
+
+// convert to promises
+/**
+ * 
+ * @param {Buffer} msg 
+ * @param {any} info 
+ * @param {String} path
+ */
+let _saveOffLine = (msg, info, path) => {
+    let fileName = uuidv1();
+    fs.writeFile(`${path}/${fileName}.info`, JSON.stringify(info), (err) =>{
+        if(!err){
+            fs.writeFile(`${path}/${fileName}.bin`, msg, (err) =>{
+                if(!err){
+                    console.log(`- msg saved in the server until the receiver (${info.receiverName}) connect`);
+                }
+                else{
+                    errorPrinter(err);
+                }
+            });
+        }
+        else{
+            errorPrinter(err);
+        }
+    });
+
+};
+
+/**
+ * 
+ * @param {any} notification 
+ */
+let saveNotification = async (notification) => {
+    let path = `./storage/notifications/${notification.to}.notifications`;
+    let exist = fs.existsSync(path);
+    if(!exist) await fs.promises.writeFile(path, '[]');
+    let data = await fs.promises.readFile(path);
+    data = JSON.parse(data.toString());
+    data.push(notification);
+    await fs.promises.writeFile(path, JSON.stringify(data));
+}
+
 module.exports = {
-    save
+    save,
+    saveOffLine,
+    saveNotification
 };

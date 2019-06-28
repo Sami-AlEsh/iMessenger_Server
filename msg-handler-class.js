@@ -1,5 +1,7 @@
+const fs = require('fs');
 const net = require('net');
 const jwt = require('jsonwebtoken');
+const save = require('./message-saver').save;
 
 
 class MsgHandler{
@@ -8,8 +10,9 @@ class MsgHandler{
      * 
      * @param {net.Server} server 
      */
-    constructor(server){
+    constructor(server, blockedUsers){
         this.server = server;
+        this.blockedUsers = blockedUsers;
     }
 
     /**
@@ -44,7 +47,11 @@ class MsgHandler{
                 // check the token
                 this.authMsgHandler(socket, jsonMsg);
             }
-            // case 2: normal msg -> end the connect with error
+            // case 2: new friend notif -> only from server
+            else if('new friend' === jsonMsg.type){
+                this.server.emit('notify', jsonMsg);
+            }
+            // case 3: normal msg -> end the connect with error
             else{
                 socket.destroy(new Error('Not authenticated'));
                 console.log('- unauthenticated client, connection end.');
@@ -86,6 +93,9 @@ class MsgHandler{
             case "Image":
                 this.binaryInfoMsgHandler(socket, jsonMsg);
                 break;
+            case "Audio":
+                this.binaryInfoMsgHandler(socket, jsonMsg);
+                break;
             default:
                 console.log('- msg is:', jsonMsg);
                 socket.emit('error', new Error('unknown type of message'));
@@ -98,7 +108,21 @@ class MsgHandler{
      * @param {Buffer} binaryMsg 
      */
     binaryMsgHandler(socket, binaryMsg){
-        this.server.emit('message', binaryMsg, socket.binaryFile.receiver, socket.username, true, socket.binaryFile.extension);
+        let info = {
+            senderName: socket.username,
+            receiverName: socket.binaryFile.receiver,
+            sentDate: socket.binaryFile.sentDate,
+            ext: socket.binaryFile.extension,
+            type: socket.binaryFile.type
+        };
+
+        if(this.blockedUsers[info.receiverName].indexOf(info.senderName) != -1){
+            console.log(`${info.receiverName} block ${info.senderName}`); 
+            return false;
+        }
+
+        save(binaryMsg, info);
+        this.server.emit('message', binaryMsg, info);
     }
 
     /**
@@ -108,7 +132,21 @@ class MsgHandler{
      */
     textMsgHandler(socket, textMsg){
         console.log('- msg (text) is:', JSON.stringify(textMsg));
-        this.server.emit('message', Buffer.from(textMsg.message), textMsg.receiver, socket.username, false, null);
+
+        let info = {
+            senderName: socket.username,
+            receiverName: textMsg.receiver,
+            sentDate: textMsg.sentDate,
+            ext: null,
+            type: textMsg.type
+        }
+       
+        if(this.blockedUsers[info.receiverName].indexOf(info.senderName) != -1){
+            console.log(`${info.receiverName} block ${info.senderName}`); 
+            return false;
+        }
+        save(textMsg.message, info);
+        this.server.emit('message', Buffer.from(textMsg.message), info);
     }
 
     /**
@@ -119,19 +157,27 @@ class MsgHandler{
     authMsgHandler(socket, authMsg){
         socket.auth = true;
 
-        // read secret key
-
-        jwt.verify(authMsg.AccessToken, '01234-56789-98765-43210', (err, decode) => {
-            if(!err && decode.username){
-                console.log('- username:', decode.username);
-
-                socket.username = decode.username;
-                this.server.emit('add new socket', socket);
+        let key = fs.readFileSync('./secretKey.key');
+            if(key === null){
+                console.log('- Internal Server Error. (secret key not found)');
+                process.exit(1);
             }
-            
-        });
-
-        console.log('- authentication process complete.');
+            else{
+                jwt.verify(authMsg.AccessToken, key, (err, decode) => {
+                    if(!err && decode.username){
+                        console.log('- username:', decode.username);
+        
+                        socket.username = decode.username;
+                        this.server.emit('add new socket', socket);
+                    }
+                    else{
+                        socket.auth = false;
+                        socket.destroy(new Error("Not authenticated"))
+                    }
+                    
+                });
+                console.log('- authentication process complete.');
+            }  
     }
 
     /**
@@ -142,15 +188,6 @@ class MsgHandler{
     binaryInfoMsgHandler(socket, binaryInfoMsg){
         socket.binaryFile = binaryInfoMsg;
         console.log('- msg is:', JSON.stringify(binaryInfoMsg));
-    }
-
-    /**
-     * 
-     * @param {net.Socket} sender 
-     * @param {Object} textMsg 
-     */
-    deleteMsgHandler(sender, msg){
-
     }
 };
 
