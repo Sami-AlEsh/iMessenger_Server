@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83eedd94-fcf7-436a-a350-7912b0a87000" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/routers/users.router.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/users.router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/storage/users.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/users.utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/users.utils.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -29,7 +27,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/users.utils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
+            <state relative-caret-position="96">
               <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
             </state>
           </provider>
@@ -39,7 +37,7 @@
         <entry file="file://$PROJECT_DIR$/storage/users.json">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="61" selection-start-column="61" selection-end-column="61" />
+              <caret column="558" selection-start-column="558" selection-end-column="558" />
             </state>
           </provider>
         </entry>
@@ -56,7 +54,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routers/indexRouter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1610">
+            <state relative-caret-position="23">
               <caret line="70" column="7" selection-start-line="70" selection-start-column="7" selection-end-line="70" selection-end-column="7" />
             </state>
           </provider>
@@ -117,6 +115,7 @@
       <find>search</find>
       <find>tareq</find>
       <find>new</find>
+      <find>add</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -207,18 +206,18 @@
       <workItem from="1559159201874" duration="4781000" />
       <workItem from="1559946235848" duration="66000" />
       <workItem from="1561500368696" duration="1184000" />
-      <workItem from="1561753208221" duration="4166000" />
+      <workItem from="1561753208221" duration="4717000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35691000" />
+    <option name="totallyTimeSpent" value="36242000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16741072" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16741072" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -232,7 +231,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3297491" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2939068" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.3154122" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -297,13 +296,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/no-Name.js" />
-    <entry file="file://$PROJECT_DIR$/routers/indexRouter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1610">
-          <caret line="70" column="7" selection-start-line="70" selection-start-column="7" selection-end-line="70" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/secretKey.key">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -342,6 +334,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routers/indexRouter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="70" column="7" selection-start-line="70" selection-start-column="7" selection-end-line="70" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routers/users.router.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -351,7 +350,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/users.utils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
+        <state relative-caret-position="96">
           <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
         </state>
       </provider>
@@ -359,7 +358,7 @@
     <entry file="file://$PROJECT_DIR$/storage/users.json">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="61" selection-start-column="61" selection-end-column="61" />
+          <caret column="558" selection-start-column="558" selection-end-column="558" />
         </state>
       </provider>
     </entry>

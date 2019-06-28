@@ -222,6 +222,7 @@ let unBlockUser = function(currentUser, blocked){
   
 let deleteUser = function(currentUser, deleted){
     let usersList = fetchUsers();
+    let d1 , d2 = false ;
     for (let user of usersList) {
       if (user.username == currentUser) {
       let index = user.friends.indexOf(deleted);
@@ -230,18 +231,21 @@ let deleteUser = function(currentUser, deleted){
         console.log(user);
         console.log(usersList);
         writeUsers(usersList);
-        return true ;
+        d1 = true ;
         }
       }
-      // else if (user.username == deleted) {
-      // let index = user.friends.indexOf(currentUser);
-      // if (index != -1){
-      //   user.friends.splice(index,1);
-      //   console.log(user);
-      //   writeUsers(usersList);
-      //   return true ;
-      //   }
-      // }
+      else if (user.username == deleted) {
+      let index = user.friends.indexOf(currentUser);
+      if (index != -1){
+        user.friends.splice(index,1);
+        console.log(user);
+        writeUsers(usersList);
+        d2 = true ;
+        }
+      }
+    }
+    if (d1 && d2 ){
+        return true ;
     }
     console.log(usersList);
     return false;
