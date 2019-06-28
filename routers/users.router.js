@@ -96,11 +96,17 @@ router.post('/unBlockUser',(req, res, next) => {
 });
   
 router.post('/delete', (req,res,next) => {
-    usersUtils.deleteUser(req.body.username, req.body.delete);
-    response.status = true;
-    response.errors = null;
-    response.data = null;
-    res.json(response);
+    console.log(req.body);
+    let deleteRes =  usersUtils.deleteUser(req.body.username, req.body.delete);
+    if(deleteRes){
+        response.status = true;
+        response.errors = null;
+        response.data = null;
+        res.json(response);
+    }
+    else {
+        next(new Error('User Not Found !'));
+    }
 });
 
 router.post('/setPublicKey', (req, res, next) => {

@@ -5,6 +5,7 @@ let fetchUsers = () => {
        let users = fs.readFileSync('./storage/users.json');
        return JSON.parse(users);
     }catch(e){
+        console.log(e);
         return [];
     }
 };
@@ -223,23 +224,27 @@ let deleteUser = function(currentUser, deleted){
     let usersList = fetchUsers();
     for (let user of usersList) {
       if (user.username == currentUser) {
-      let index = user.friends.indexOf(delted);
+      let index = user.friends.indexOf(deleted);
       if (index != -1){
-        usersList.friends.splice(index,1);
+        user.friends.splice(index,1);
         console.log(user);
+        console.log(usersList);
         writeUsers(usersList);
+        return true ;
         }
       }
-      else if (user.username == deleted) {
-      let index = user.friends.indexOf(currentUser);
-      if (index != -1){
-        usersList.friends.splice(index,1);
-        console.log(user);
-        writeUsers(usersList);
-        }
-      }
+      // else if (user.username == deleted) {
+      // let index = user.friends.indexOf(currentUser);
+      // if (index != -1){
+      //   user.friends.splice(index,1);
+      //   console.log(user);
+      //   writeUsers(usersList);
+      //   return true ;
+      //   }
+      // }
     }
-    return true ;
+    console.log(usersList);
+    return false;
 };
 
 /***
