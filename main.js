@@ -17,7 +17,7 @@ const userRoute = require('./routers/users.router');
 const indexRoute = require('./routers/indexRouter');
 
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5mb'}));
 
 
 app.use('/index',indexRoute);

@@ -317,6 +317,32 @@ let getPublicKeys = async (username) => {
     return result;
 };
 
+let addRegisterUserPic = (pic64,username) => {
+    try{
+        let picsFile = fs.readFileSync('./storage/profile/pics.json');
+        console.log(picsFile);
+        let picsArr = JSON.parse(picsFile);
+        picsArr.push({
+            user : username,
+            pic : pic64
+        });
+        writePicsArr(picsArr);
+        return true;
+
+    }catch(e){
+        console.log(e);
+        return [];
+    }
+};
+
+let writePicsArr = (pics) => {
+    fs.writeFile('./storage/profile/pics.json', JSON.stringify(pics), (err) => {
+        if(err){
+            console.log('ERROR: write', err.message);
+        }
+    });
+};
+
 module.exports = {
     addUser,
     login,
@@ -334,5 +360,6 @@ module.exports = {
     getAllUsernames,
     addPublicKey,
     getPublicKeys,
-    deleteUser
+    deleteUser,
+    addRegisterUserPic
 };
