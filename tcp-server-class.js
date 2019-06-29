@@ -38,7 +38,7 @@ class ChatServer{
         setInterval(() => {
             this.blockedUsers = userUtils.getAllBlockedUsers();
             this.users = userUtils.getAllUsernames();
-        }, 1000 * 60);
+        }, 1000 * 5);
         
         
         this.netServer.listen(this.port, this.host, () => {
@@ -117,12 +117,13 @@ class ChatServer{
      * @param {net.Socket} socket 
      */
     addNewSocket(socket){
-        // if(this.users.indexOf(socket.username) === -1){
-        //     socket.destroy(new Error(`${socket.username} does not exist.`));
-        //     return;
-        // }
+        if(this.users.indexOf(socket.username) === -1){
+            socket.destroy()
+            console.log(`- ${socket.username} does not exist.`);
+            return;
+        }
 
-        console.log('- new socket added ...........', socket.username);
+        console.log('- new socket added ...........', socket.username,socket.remoteAddress);
         this.sockets.push(socket);
         this.loadOfflineNotifications(socket); // TODO
         this.loadOffLineMsgs(socket);
@@ -278,11 +279,30 @@ class ChatServer{
      */
     notify(notification){
         let socket = this.getSocket(notification.to);
+        
         if(socket === null){
+            // TODO send drop message
             // save this notification until the recevier connect
-            saveNotification(notification);
+            if(notification.type !== 'VoiceCall') saveNotification(notification);
+            else{
+                let fromSock = this.getSocket(notification.from);
+                let msg = Buffer.from(JSON.stringify({type:'VoiceCall', command:'drop', from:notification.to}));
+                let msgLen = Buffer.alloc(4);
+                msgLen.writeUInt32LE(msg.length);
+                fromSock.write(msgLen);
+                fromSock.write(msg);
+
+            }
             return;
         }
+
+        if(notification.type === 'VoiceCall'){
+            delete notification['to'];
+            if(notification.command === 'drop') delete notification['ip'];
+        }
+        console.log(notification);
+
+
         let msg = Buffer.from(JSON.stringify(notification));
         let msgLen = Buffer.alloc(4);
         msgLen.writeUInt32LE(msg.length);

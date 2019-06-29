@@ -36,7 +36,8 @@ router.post('/addFriend', limiterOpts, (req, res, next) => {
        
     let currUser= req.body.current;
     let userFriend= req.body.friend;
-    if(! usersUtils.addFriend(currUser, userFriend)) return next(new Error('wrong username or friend name'));
+    let result = usersUtils.addFriend(currUser, userFriend)
+    if(result.status === false ) return next(new Error(result.error));
     // TODO: data must be empty
     //-----------------------------------
     let sock = new net.Socket();

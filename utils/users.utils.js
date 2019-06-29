@@ -147,6 +147,7 @@ let addFriend =function(currentUser, newFriend){
     let a1 = false, a2 = false;
     for(let u of usersList){
         if(u.username == currentUser){
+        	if(u.friends.indexOf(newFriend)!==-1) return {status:false, error:"this friend already exist."};
             u.friends.push(newFriend);
             a1 = true;
         }
@@ -157,15 +158,15 @@ let addFriend =function(currentUser, newFriend){
     }
     if(a1 && a2){
         writeUsers(usersList);
-        return true;
+        return {status:true, error:null};;
     }
-    return false;
+    return {status:false, error:'wrong username or friend name'};
 };
 
 let getDate = () => {
     
     let d = new Date();
-    return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDay() + ':' + d.getHours() + '.' + d.getMinutes();; 
+    return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate() + ':' + d.getHours() + '.' + d.getMinutes();; 
 };
 
 let getAllBlockedUsers = () => {
@@ -334,4 +335,4 @@ module.exports = {
     addPublicKey,
     getPublicKeys,
     deleteUser
-}
+};
