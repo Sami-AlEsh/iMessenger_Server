@@ -99,6 +99,9 @@ class MsgHandler{
             case "VoiceCall":
                 this.voiceCallNotificationsHandler(socket, jsonMsg);
                 break;
+            case "updateSecretKey":
+                this.updateSecretKeyHandler(socket, jsonMsg);
+                break;
             default:
                 console.log('- msg is:', jsonMsg);
                 socket.emit('error', new Error('unknown type of message'));
@@ -205,6 +208,16 @@ class MsgHandler{
         notification.fromPlatform = socket.platform;
         notification.ip = socket.remoteAddress;
         this.server.emit('notify', notification);
+    }
+
+    /**
+     * 
+     * @param {net.Socket} socket 
+     * @param {any} updateSecretNotification 
+     */
+    updateSecretKeyHandler(socket, updateSecretNotification){
+        updateSecretNotification.from = socket.username;
+        this.server.emit('notify', updateSecretNotification);
     }
 };
 

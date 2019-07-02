@@ -36,11 +36,14 @@ class ChatServer{
         this.netServer.on('error', (err) => { this.errorHandler(err); });
         this.netServer.on('close', () => { this.serverCloseHandler(); });
         this.netServer.on('add new socket', (socket) => { this.addNewSocket(socket); });
-        this.netServer.on('notify', (notification) => { 
-            for(let platform of this.usersPlatforms[notification.to]){
-                notification.toPlatform = platform;
-                this.notify(notification);
-            }
+        this.netServer.on('notify', (notification) => {
+            if(notification.toPlatform) this.notify(notification);
+            else{
+                for(let platform of this.usersPlatforms[notification.to]){
+                    notification.toPlatform = platform;
+                    this.notify(notification);
+                }
+        }
              
         });
         this.netServer.on('message', (msg, info) => { 
@@ -280,12 +283,14 @@ class ChatServer{
         try{
             let path = `./storage/notifications/${socket.username}.notifications`;
             let data = await fs.promises.readFile(path);
+            await fs.promises.unlink(path)
+            .catch(err => this.errorHandler(err)); 
             data = JSON.parse(data.toString());
             for(let not of data){
                 this.notify(not);
             }
-            fs.promises.unlink(path)
-            .catch(err => this.errorHandler(err)); 
+            
+            
         }catch(err){
             console.log(`- no offline notifications for ${socket.username} (${socket.platform})`);
         }
@@ -323,6 +328,11 @@ class ChatServer{
             delete notification['fromPlatform'];
             if(notification.command === 'drop') delete notification['ip'];
         }
+        else if(notification.type === 'updateSecretKey'){
+            delete notification['to'];
+            delete notification['toPlatform'];
+        }
+
         console.log(notification);
 
 
