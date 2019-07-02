@@ -21,23 +21,39 @@ class ChatServer{
         this.netServer = null;
         this.blockedUsers = {}; // need to update every minute
         this.users = []; // need to update every minute
+        this.usersPlatforms = {};
     }
     
     //create tcp server and link between events and functions
     runServer(){
         this.netServer = net.createServer();
+
         this.blockedUsers = userUtils.getAllBlockedUsers();
         this.users = userUtils.getAllUsernames();
+        this.usersPlatforms = userUtils.getAllUsersPlatforms();
+
         this.netServer.on('connection', (socket) => { this.connectionHandler(socket); });
         this.netServer.on('error', (err) => { this.errorHandler(err); });
         this.netServer.on('close', () => { this.serverCloseHandler(); });
         this.netServer.on('add new socket', (socket) => { this.addNewSocket(socket); });
-        this.netServer.on('notify', (notification) => { this.notify(notification) });
-        this.netServer.on('message', (msg, info) => { this.send(msg, info); });
+        this.netServer.on('notify', (notification) => { 
+            for(let platform of this.usersPlatforms[notification.to]){
+                notification.toPlatform = platform;
+                this.notify(notification);
+            }
+             
+        });
+        this.netServer.on('message', (msg, info) => { 
+            for(let platform of this.usersPlatforms[info.receiverName]){
+                info.platform = platform;
+                this.send(msg, info);
+            }
+        });
         
         setInterval(() => {
             this.blockedUsers = userUtils.getAllBlockedUsers();
             this.users = userUtils.getAllUsernames();
+            this.usersPlatforms = userUtils.getAllUsersPlatforms();
         }, 1000 * 5);
         
         
@@ -123,7 +139,7 @@ class ChatServer{
             return;
         }
 
-        console.log('- new socket added ...........', socket.username,socket.remoteAddress);
+        console.log('- new socket added ...........', socket.username,socket.remoteAddress,socket.platform);
         this.sockets.push(socket);
         this.loadOfflineNotifications(socket); // TODO
         this.loadOffLineMsgs(socket);
@@ -142,11 +158,11 @@ class ChatServer{
     */
     send(msg, info){
         // fetch two sockets if user connect on pc and android // TODO
-        let receiverSocket = this.getSocket(info.receiverName);
+        let receiverSocket = this.getSocket(info.receiverName, info.platform);
 
         if(receiverSocket === null){
             saveOffLine(msg, info);
-			console.log('- receiver offfffffffffffffline');
+			console.log(`- receiver ${info.receiverName} offffffline (${info.platform})`);
             return false;
         }
         
@@ -223,10 +239,12 @@ class ChatServer{
      * 
      * @returns {net.Socket};
      */
-    getSocket(username){
-        let socket = this.sockets.filter( socket => socket.username === username )[0];
-        
-        return socket === undefined ? null : socket;
+    getSocket(username, platform){
+
+        for(let sock of this.sockets){
+            if(sock.username === username && sock.platform === platform) return sock;
+        }
+        return null;
     } 
   
     /**
@@ -255,7 +273,7 @@ class ChatServer{
                 .catch((err) => { this.errorHandler(err) });
             }
         })
-        .catch((err) => { console.log("- no offline messages for this client"); });
+        .catch((err) => { console.log(`- no offline messages for ${socket.username} (${socket.platform})`); });
     }
 
     async loadOfflineNotifications(socket){
@@ -269,7 +287,7 @@ class ChatServer{
             fs.promises.unlink(path)
             .catch(err => this.errorHandler(err)); 
         }catch(err){
-            console.log('- no offline notifications for this client');
+            console.log(`- no offline notifications for ${socket.username} (${socket.platform})`);
         }
     }
 
@@ -278,19 +296,22 @@ class ChatServer{
      * @param {any} notification 
      */
     notify(notification){
-        let socket = this.getSocket(notification.to);
+        let socket = this.getSocket(notification.to, notification.toPlatform);
         
         if(socket === null){
             // TODO send drop message
             // save this notification until the recevier connect
             if(notification.type !== 'VoiceCall') saveNotification(notification);
             else{
-                let fromSock = this.getSocket(notification.from);
+                let fromSock = this.getSocket(notification.from, notification.fromPlatform);
                 let msg = Buffer.from(JSON.stringify({type:'VoiceCall', command:'drop', from:notification.to}));
                 let msgLen = Buffer.alloc(4);
                 msgLen.writeUInt32LE(msg.length);
-                fromSock.write(msgLen);
-                fromSock.write(msg);
+                if(fromSock!==null){
+                    fromSock.write(msgLen);
+                    fromSock.write(msg);
+                }
+               
 
             }
             return;
@@ -298,6 +319,8 @@ class ChatServer{
 
         if(notification.type === 'VoiceCall'){
             delete notification['to'];
+            delete notification['toPlatform'];
+            delete notification['fromPlatform'];
             if(notification.command === 'drop') delete notification['ip'];
         }
         console.log(notification);

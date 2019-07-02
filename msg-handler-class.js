@@ -171,6 +171,8 @@ class MsgHandler{
                         console.log('- username:', decode.username);
         
                         socket.username = decode.username;
+                        socket.platform = authMsg.platform;
+
                         this.server.emit('add new socket', socket);
                     }
                     else{
@@ -200,6 +202,7 @@ class MsgHandler{
      */
     voiceCallNotificationsHandler(socket, notification){
         notification.from = socket.username;
+        notification.fromPlatform = socket.platform;
         notification.ip = socket.remoteAddress;
         this.server.emit('notify', notification);
     }

@@ -5,7 +5,7 @@ let fetchUsers = () => {
        let users = fs.readFileSync('./storage/users.json');
        return JSON.parse(users);
     }catch(e){
-        console.log(e);
+        //console.log(e);
         return [];
     }
 };
@@ -32,6 +32,7 @@ let getUserObject = (body) => {
         name: body.name === undefined ? body.username : body.name,
         friends: [],
         blockedUsers: [],
+        platforms:[],
         signupData: getDate(),
         // Need Handling
         verified : false ,
@@ -40,7 +41,7 @@ let getUserObject = (body) => {
         status: body.status === undefined ? '' : body.status,
         private: body.private === undefined ? false : body.private,
     };
-
+    if(user.platforms.indexOf(body.platform) === -1) user.platforms.push(body.platform);
     return user;
     
 };
@@ -82,7 +83,7 @@ let addToLastSeen = (username) => {
             data = JSON.parse(data);
         }
         catch(e){ data = {}; }
-        data[username] = 1;
+        data[username] = getDate();
         fs.promises.writeFile('./storage/lastSeen.json', JSON.stringify(data));
     })
     .catch((err) => {
@@ -317,6 +318,30 @@ let getPublicKeys = async (username) => {
     return result;
 };
 
+let addPlatform = (username, platform) =>{
+    let usersList = fetchUsers();
+    for(let user of usersList){
+        if(user.username === username){
+            if(user.platforms.indexOf(platform) == -1){
+                user.platforms.push(platform);
+                writeUsers(usersList);
+            }
+            else{
+                return;
+            }
+        }
+    }
+
+};
+
+let getAllUsersPlatforms = ()=>{
+    let res = {};
+    let usersList = fetchUsers();
+    for(let user of usersList){
+        res[user.username] = user.platforms;
+    }
+    return res;
+};
 module.exports = {
     addUser,
     login,
@@ -334,5 +359,7 @@ module.exports = {
     getAllUsernames,
     addPublicKey,
     getPublicKeys,
-    deleteUser
+    deleteUser,
+    addPlatform,
+    getAllUsersPlatforms
 };

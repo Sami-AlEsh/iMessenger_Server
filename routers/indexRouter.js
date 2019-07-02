@@ -15,7 +15,9 @@ let router = express.Router();
 router.post('/signup', (req, res, next) => {
     if(!req.body.username) return next(new Error('username require to complete signup'));
     if(!req.body.password) return next(new Error('password require to complete signup'));
-	if(!req.body.email) return next(new Error('email require to complete signup'));
+    if(!req.body.email) return next(new Error('email require to complete signup'));
+    if(!req.body.platform) return next(new Error('platform require to complete signup'));
+
 
     let user = users.getUserObject(req.body);
 
@@ -44,10 +46,17 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login',limiterOpts ,  (req, res, next) => {
+    if(!req.body.username) return next(new Error('username require to complete signup'));
+    if(!req.body.password) return next(new Error('password require to complete signup'));
+    if(!req.body.platform) return next(new Error('platform require to complete signup'));
+
+
     let exist = users.login(req.body.username, req.body.password);
 
     if(!exist) return next(new Error('wrong in username or password'));
     
+
+    users.addPlatform(req.body.username, req.body.platform);
     fs.promises.readFile('./secretKey.key')
     .then((secretKey) => {
         

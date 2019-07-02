@@ -158,13 +158,17 @@ let _saveOffLine = (msg, info, path) => {
  * @param {any} notification 
  */
 let saveNotification = async (notification) => {
-    let path = `./storage/notifications/${notification.to}.notifications`;
-    let exist = fs.existsSync(path);
-    if(!exist) await fs.promises.writeFile(path, '[]');
-    let data = await fs.promises.readFile(path);
-    data = JSON.parse(data.toString());
-    data.push(notification);
-    await fs.promises.writeFile(path, JSON.stringify(data));
+    try{        
+        let path = `./storage/notifications/${notification.to}.notifications`;
+        let exist = fs.existsSync(path);
+        if(!exist) await fs.promises.writeFile(path, '[]');
+        let data = await fs.promises.readFile(path);
+        data = JSON.parse(data.toString());
+        data.push(notification);
+        await fs.promises.writeFile(path, JSON.stringify(data));
+    }catch(err){
+        console.log(err);
+    }
 }
 
 module.exports = {
