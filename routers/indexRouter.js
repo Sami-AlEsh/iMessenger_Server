@@ -24,7 +24,7 @@ router.post('/signup', (req, res, next) => {
 
     console.log(req.body);
     if(req.body.img64){
-        users.addRegisterUserPic(req.body.img64, req.body.username)
+        users.addUserPic(req.body.img64, req.body.username)
     }
 
     fs.promises.readFile('./secretKey.key')

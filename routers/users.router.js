@@ -130,6 +130,55 @@ router.get('/getPublicKeys/:username', async (req, res, next) => {
     response.data = result;
     res.json(response);
 });
+
+// Get single User profile pic
+router.get('/getProfilePic/:username' , (req, res, next) => {
+    let username = req.params['username'];
+    let result = usersUtils.getUserProfilePic(username);
+    if (result) {
+        response.errors = null ;
+        response.data = result ;
+        response.status = true ;
+        res.json(response);
+    }else {
+        response.errors = 'User Doesnt have a profile pic' ;
+        response.data = null ;
+        response.status = false ;
+        res.json(response);
+    }
+});
+
+
+//Set Single User profile pic
+router.post('/updateProfilePic', (req, res, next) => {
+    // Req. body : Username , img64
+    if (req.body.username && req.body.img64 ) {
+       let result =  usersUtils.updateUserProfilePic(req.body.username, req.body.img64);
+        if (result) {
+            response.errors = null ;
+            response.data = null ;
+            response.status = true ;
+            res.json(response);
+        }else {
+            response.errors = 'Operation Failed, Try after a While ... ' ;
+            response.data = null ;
+            response.status = false ;
+            res.json(response);
+        }
+    }
+});
+
+router.get('/getFriendsPics/:username', (req, res, next) => {
+    let username = req.params['username'];
+    if(username){
+
+    }else {
+        response.status = false ;
+        response.errors = 'Undefined Username !';
+        response.data = null ;
+        res.json(response );
+    }
+});
 //Get All Users ...
 router.get('/users', limiterOpts  , (req, res, next) => {
    

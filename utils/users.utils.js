@@ -225,13 +225,16 @@ let deleteUser = function(currentUser, deleted){
     let usersList = fetchUsers();
     let d1 , d2 = false ;
     for (let user of usersList) {
+        if (d1 && d2 ){
+            writeUsers(usersList);
+            return true ;
+        }
       if (user.username == currentUser) {
       let index = user.friends.indexOf(deleted);
       if (index != -1){
         user.friends.splice(index,1);
         console.log(user);
         console.log(usersList);
-        writeUsers(usersList);
         d1 = true ;
         }
       }
@@ -240,13 +243,9 @@ let deleteUser = function(currentUser, deleted){
       if (index != -1){
         user.friends.splice(index,1);
         console.log(user);
-        writeUsers(usersList);
         d2 = true ;
         }
       }
-    }
-    if (d1 && d2 ){
-        return true ;
     }
     console.log(usersList);
     return false;
@@ -317,22 +316,56 @@ let getPublicKeys = async (username) => {
     return result;
 };
 
-let addRegisterUserPic = (pic64,username) => {
-    try{
-        let picsFile = fs.readFileSync('./storage/profile/pics.json');
-        console.log(picsFile);
-        let picsArr = JSON.parse(picsFile);
-        picsArr.push({
-            user : username,
-            pic : pic64
-        });
-        writePicsArr(picsArr);
-        return true;
+let fetchProfilePicsFile = () => {
+  try {
+      let picsFile = fs.readFileSync('./storage/profile/pics.json');
+      console.log(picsFile);
+      let picsArr = JSON.parse(picsFile);
+      return picsArr ;
+  }  catch (e) {
+      console.log(e);
+      return null;
+  }
+};
 
-    }catch(e){
-        console.log(e);
-        return [];
+let addUserPic = (pic64,username) => {
+        let picsArr = fetchProfilePicsFile() ;
+        if (picsArr) {
+            picsArr.push({
+                user : username,
+                pic : pic64
+            });
+            writePicsArr(picsArr);
+            return true;
+        } else {
+            return false ;
+        }
+};
+
+let updateUserProfilePic = (username, pic) => {
+    let picsArr = fetchProfilePicsFile() ;
+    if (picsArr) {
+        for (let p of picsArr) {
+            if (p.user == username) {
+                p.pic = pic ;
+                writePicsArr(picsArr);
+                return true ;
+            }
+        }
+        return false ;
     }
+};
+
+let getUserProfilePic = (username) => {
+    let picsArr = fetchProfilePicsFile() ;
+    if (picsArr) {
+        for (let p of picsArr) {
+            if (p.user == username) {
+                return p.pic
+            }
+        }
+          return false ;
+        }
 };
 
 let writePicsArr = (pics) => {
@@ -361,5 +394,7 @@ module.exports = {
     addPublicKey,
     getPublicKeys,
     deleteUser,
-    addRegisterUserPic
+    addUserPic,
+    getUserProfilePic,
+    updateUserProfilePic
 };
