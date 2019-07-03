@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const profilePicsDir = './statics/profilePics' ;
+
 let fetchUsers = () => {
     try{
        let users = fs.readFileSync('./storage/users.json');
@@ -354,43 +356,82 @@ let fetchProfilePicsFile = () => {
 };
 
 let addUserPic = (pic64,username) => {
-        let picsArr = fetchProfilePicsFile() ;
-        if (picsArr) {
-            picsArr.push({
-                user : username,
-                pic : pic64
-            });
-            writePicsArr(picsArr);
-            return true;
-        } else {
-            return false ;
-        }
+
+    let buff = Buffer.from(pic64, 'base64');
+    fs.writeFileSync('./statics/profilePics/' + username+'.png', buff);
+
+        // let picsArr = fetchProfilePicsFile() ;
+        // if (picsArr) {
+        //     picsArr.push({
+        //         user : username,
+        //         pic : pic64
+        //     });
+        //     writePicsArr(picsArr);
+        //     return true;
+        // } else {
+        //     return false ;
+        // }
 };
 
 let updateUserProfilePic = (username, pic) => {
-    let picsArr = fetchProfilePicsFile() ;
-    if (picsArr) {
-        for (let p of picsArr) {
-            if (p.user == username) {
-                p.pic = pic ;
-                writePicsArr(picsArr);
-                return true ;
+    return new Promise((resolve, reject) => {
+        let users = fetchUsers();
+        for (let u of users) {
+            if (u.username == username) {
+                let buff = Buffer.from(pic, 'base64');
+                fs.writeFileSync('./statics/profilePics/'+ username+'.png', buff);
+                console.log('Base64 image data converted to file:' + username +'.png');
+                resolve (true);
             }
         }
-        return false ;
-    }
+        reject('User not found');
+    })
+
+    // uSer not found >>>
+
+
+    // let picsArr = fetchProfilePicsFile() ;
+    // if (picsArr) {
+    //     for (let p of picsArr) {
+    //         if (p.user == username) {
+    //             p.pic = pic ;
+    //             writePicsArr(picsArr);
+    //             return true ;
+    //         }
+    //     }
+    //     return false ;
+    // }
 };
 
 let getUserProfilePic = (username) => {
-    let picsArr = fetchProfilePicsFile() ;
-    if (picsArr) {
-        for (let p of picsArr) {
-            if (p.user == username) {
-                return p.pic
+    return new Promise((resolve, reject) => {
+        fs.readdir(profilePicsDir, (err, files) => {
+            if (err) {console.log(err); return}
+            for (let file of files) {
+                let dotIndex = file.indexOf('.');
+                let fileName = file.substring(0, dotIndex);
+                console.log(fileName);
+                if (fileName == username) {
+                    console.log(file);
+                    resolve(file);
+                }
+
             }
-        }
-          return false ;
-        }
+            reject(false);
+        })
+    })
+
+
+
+    // let picsArr = fetchProfilePicsFile() ;
+    // if (picsArr) {
+    //     for (let p of picsArr) {
+    //         if (p.user == username) {
+    //             return p.pic
+    //         }
+    //     }
+    //       return false ;
+    //     }
 };
 
 let writePicsArr = (pics) => {
@@ -420,7 +461,7 @@ module.exports = {
     getPublicKeys,
     deleteUser,
     addPlatform,
-    getAllUsersPlatforms
+    getAllUsersPlatforms,
     deleteUser,
     addUserPic,
     getUserProfilePic,

@@ -9,9 +9,19 @@ chatServer.runServer();
 //HTTP PORT
 const express = require('express')
 const app = express();
+const path = require('path');
 const bodyParser = require('body-parser');
 const response = require('./shared/responseForm');
 const PORT = 8080;
+
+// Get user Profile Pic
+app.use(express.static(path.join(__dirname,'statics/profilePics')));
+
+app.get('/statics/profilePics/:name' ,(req , res)=>{
+	let name = req.params['name'];
+	res.sendFile(path.join(__dirname,'statics/profilePics/'+name));
+});
+////////////////////
 
 const userRoute = require('./routers/users.router');
 const indexRoute = require('./routers/indexRouter');

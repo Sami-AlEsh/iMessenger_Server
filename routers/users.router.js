@@ -5,6 +5,9 @@ const router = express.Router();
 const usersUtils = require('../utils/users.utils');
 const response = require('../shared/responseForm');
 const rateLimit = require('../shared/limiterOpts').rateLimit;
+const os = require('os');
+const ifaces = os.networkInterfaces();
+
 
 const limiterOpts = rateLimit(1000, 1000);
 
@@ -113,10 +116,28 @@ router.post('/delete', (req,res,next) => {
     console.log(req.body);
     let deleteRes =  usersUtils.deleteUser(req.body.username, req.body.delete);
     if(deleteRes){
-        response.status = true;
-        response.errors = null;
-        response.data = null;
-        res.json(response);
+
+        let sock = new net.Socket();
+        sock.connect(3001, () => {
+            let _msg = {type:'delete friend', from:username };
+            let msg = Buffer.from(JSON.stringify(_msg));
+            let msgLen = Buffer.alloc(4);
+            msgLen.writeUInt32LE(msg.length);
+
+            sock.write(msgLen); sock.write(msg);
+
+            response.data = null ;
+            response.status = true ;
+            response.errors = null;
+            res.json(response);
+
+            sock.end();
+        });
+        //
+        // response.status = true;
+        // response.errors = null;
+        // response.data = null;
+        // res.json(response);
     }
     else {
         next(new Error('User Not Found !'));
@@ -145,39 +166,74 @@ router.get('/getPublicKeys/:username', async (req, res, next) => {
 });
 
 // Get single User profile pic
-router.get('/getProfilePic/:username' , (req, res, next) => {
+router.get('/getProfilePic/:username' , async  (req, res, next) => {
+    let ip = 'hi' ;
     let username = req.params['username'];
-    let result = usersUtils.getUserProfilePic(username);
-    if (result) {
-        response.errors = null ;
-        response.data = result ;
-        response.status = true ;
-        res.json(response);
-    }else {
-        response.errors = 'User Doesnt have a profile pic' ;
-        response.data = null ;
-        response.status = false ;
-        res.json(response);
-    }
+    usersUtils.getUserProfilePic(username).then(
+        (result) => {
+                Object.keys(ifaces).forEach(function (ifname) {
+                    var alias = 0;
+
+                    ifaces[ifname].forEach(function (iface) {
+                        if ('IPv4' !== iface.family || iface.internal !== false) {
+                            // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+                            return;
+                        }
+
+                        if (alias >= 1) {
+                            // this single interface has multiple ipv4 addresses
+                            console.log(ifname + ':' + alias, iface.address);
+                        } else {
+                            // this interface has only one ipv4 adress
+                            console.log(ifname, iface.address);
+                            ip = iface.address ;
+                        }
+                        ++alias;
+                    });
+                });
+                // console.log(ip+':8080/statics/profilePics/'+ result);
+                // console.log(result);
+                response.errors = null ;
+                response.data = ip+':8080/statics/profilePics/'+ result ;
+                response.status = true ;
+                res.json(response);
+        }
+    )
+        .catch(
+            (err) => {
+                console.log(err);
+                response.errors = 'User Doesnt have a profile pic' ;
+                response.data = null ;
+                response.status = false ;
+                res.json(response);
+            }
+        );
 });
 
 
 //Set Single User profile pic
-router.post('/updateProfilePic', (req, res, next) => {
+router.post('/updateProfilePic',  (req, res, next) => {
     // Req. body : Username , img64
     if (req.body.username && req.body.img64 ) {
-       let result =  usersUtils.updateUserProfilePic(req.body.username, req.body.img64);
-        if (result) {
-            response.errors = null ;
-            response.data = null ;
-            response.status = true ;
-            res.json(response);
-        }else {
-            response.errors = 'Operation Failed, Try after a While ... ' ;
-            response.data = null ;
-            response.status = false ;
-            res.json(response);
-        }
+       usersUtils.updateUserProfilePic(req.body.username, req.body.img64).then(
+           (result) => {
+               response.errors = null ;
+               response.data = null ;
+               response.status = true ;
+               res.json(response);
+           }
+       ).catch(
+           (err) => {
+               console.log(err);
+               response.errors = err ;
+               response.data = null ;
+               response.status = false ;
+               res.json(response);
+           }
+       )
+
+    } else {
+        next(new Error('username or image is undefined !'));
     }
 });
 
