@@ -24,6 +24,11 @@ router.post('/signup', (req, res, next) => {
     let result = users.addUser(user);
     if(result.err != null) return next(new Error(result.err));
 
+    console.log(req.body);
+    if(req.body.img64){
+        users.addUserPic(req.body.img64, req.body.username)
+    }
+
     fs.promises.readFile('./secretKey.key')
     .then((secretKey) => {
         let payload = {
