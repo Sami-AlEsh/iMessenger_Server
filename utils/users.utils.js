@@ -228,25 +228,24 @@ let deleteUser = function(currentUser, deleted){
     for (let user of usersList) {
       if (user.username == currentUser) {
       let index = user.friends.indexOf(deleted);
-      if (index != -1){
-        user.friends.splice(index,1);
-        console.log(user);
-        console.log(usersList);
-        writeUsers(usersList);
+      if (index !== -1){
+        user.friends = user.friends.filter(item => item !== deleted);
+        //console.log(user);
+        //console.log(usersList);
         d1 = true ;
         }
       }
       else if (user.username == deleted) {
       let index = user.friends.indexOf(currentUser);
-      if (index != -1){
-        user.friends.splice(index,1);
-        console.log(user);
-        writeUsers(usersList);
+      if (index !== -1){
+        user.friends = user.friends.filter(item => item !== currentUser);
+        //console.log(user);
         d2 = true ;
         }
       }
     }
     if (d1 && d2 ){
+        writeUsers(usersList);
         return true ;
     }
     console.log(usersList);
