@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83eedd94-fcf7-436a-a350-7912b0a87000" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/middlewares/auth.middleware.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/users.router.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/users.router.js" afterDir="false" />
+=======
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
       <change beforePath="$PROJECT_DIR$/utils/users.utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/users.utils.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -19,6 +22,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utils/users.utils.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -29,6 +33,31 @@
                 <element signature="e#9015#9056#0" />
                 <element signature="e#9787#9828#0" />
               </folding>
+=======
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/users.utils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/storage/users.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="558" selection-start-column="558" selection-end-column="558" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
             </state>
           </provider>
         </entry>
@@ -36,8 +65,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routers/users.router.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="-5235">
               <caret line="7" selection-start-line="7" selection-end-line="8" selection-end-column="38" />
+=======
+            <state relative-caret-position="207">
+              <caret line="107" column="16" lean-forward="true" selection-start-line="107" selection-start-column="16" selection-end-line="107" selection-end-column="16" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
             </state>
           </provider>
         </entry>
@@ -50,12 +84,61 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routers/indexRouter.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="-1113">
               <caret line="27" column="21" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="21" />
+=======
+            <state relative-caret-position="23">
+              <caret line="70" column="7" selection-start-line="70" selection-start-column="7" selection-end-line="70" selection-end-column="7" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+=======
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/secretKey.key">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/mail.utils.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="483">
+              <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shared/responseForm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/msg-handler-class.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3588">
+              <caret line="156" column="4" selection-start-line="156" selection-start-column="4" selection-end-line="156" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tcp-server-class.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="185" selection-start-line="185" selection-end-line="185" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -71,6 +154,7 @@
       <find>tareq</find>
       <find>new</find>
       <find>add</find>
+<<<<<<< HEAD
       <find>ward</find>
       <find>sami33</find>
       <find>login</find>
@@ -78,10 +162,9 @@
       <find>jwt</find>
       <find>addRegisterUserPic</find>
       <find>nader</find>
+=======
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
     </findStrings>
-    <replaceStrings>
-      <replace>addUserPic</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -90,24 +173,25 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/message-saver.js" />
+        <option value="$PROJECT_DIR$/tcp-server-class.js" />
         <option value="$PROJECT_DIR$/utils/mail.utils.js" />
         <option value="$PROJECT_DIR$/shared/responseForm.js" />
-        <option value="$PROJECT_DIR$/shared/limiterOpts.js" />
-        <option value="$PROJECT_DIR$/storage/profile/pics.json" />
-        <option value="$PROJECT_DIR$/storage/users.json" />
-        <option value="$PROJECT_DIR$/tcp-server-class.js" />
-        <option value="$PROJECT_DIR$/routers/indexRouter.js" />
         <option value="$PROJECT_DIR$/main.js" />
+<<<<<<< HEAD
         <option value="E:/Marks/marksProject/middleware/auth.middleware.js" />
         <option value="$PROJECT_DIR$/middlewares/auth.middleware.js" />
+=======
+        <option value="$PROJECT_DIR$/routers/indexRouter.js" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
         <option value="$PROJECT_DIR$/routers/users.router.js" />
         <option value="$PROJECT_DIR$/utils/users.utils.js" />
+        <option value="$PROJECT_DIR$/storage/users.json" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="361" />
-    <option name="y" value="-10" />
+    <option name="x" value="-3" />
+    <option name="y" value="18" />
     <option name="width" value="1346" />
     <option name="height" value="688" />
   </component>
@@ -127,6 +211,7 @@
             <path>
               <item name="iMessenger_Server" type="b2602c69:ProjectViewProjectNode" />
               <item name="iMessenger_Server" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="middlewares" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -160,6 +245,10 @@
               <item name="iMessenger_Server" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
+=======
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+            </path>
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
           </expand>
           <select />
         </subPane>
@@ -169,18 +258,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.js" />
+    <property name="last_opened_file_path" value="E:/JavaScript/IAS-App-Angular" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="restartRequiresConfirmation" value="false" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\ITE\Third Y\Project 1\iMessenger_Server\statics\profilePics" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\ITE\Third Y\Project 1\iMessenger_Server\statics\profilePics" />
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -193,11 +273,6 @@
         </RuleState>
       </list>
     </option>
-  </component>
-  <component name="RunManager">
-    <configuration name="main.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="main.js" working-dir="$PROJECT_DIR$">
-      <method v="2" />
-    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -220,36 +295,54 @@
       <workItem from="1559159201874" duration="4781000" />
       <workItem from="1559946235848" duration="66000" />
       <workItem from="1561500368696" duration="1184000" />
+<<<<<<< HEAD
       <workItem from="1561753208221" duration="5487000" />
       <workItem from="1561837450099" duration="64082000" />
+=======
+      <workItem from="1561753208221" duration="4717000" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="101094000" />
+=======
+    <option name="totallyTimeSpent" value="36242000" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
+<<<<<<< HEAD
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1376702" />
+=======
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16741072" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.15949821" />
-      <window_info anchor="bottom" id="Cvs" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="4" />
-      <window_info anchor="bottom" id="Docker" order="5" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="6" weight="0.27060932" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3297491" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.3154122" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+<<<<<<< HEAD
       <window_info anchor="right" id="Terminal" order="3" weight="0.3343419" />
       <window_info active="true" anchor="right" id="Run" order="4" visible="true" weight="0.38653556" />
       <window_info anchor="right" id="Debug" order="5" weight="0.33358547" />
+=======
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -295,6 +388,7 @@
       </map>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -339,16 +433,42 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="89">
           <caret line="617" column="23" selection-start-line="617" selection-start-column="23" selection-end-line="617" selection-end-column="23" />
+=======
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/message-saver.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="30" selection-start-line="30" selection-end-line="36" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/no-Name.js" />
+    <entry file="file://$PROJECT_DIR$/secretKey.key">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/mail.utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/shared/responseForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
-          <caret line="4" column="2" selection-start-column="28" selection-end-line="4" selection-end-column="2" />
+          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/storage/notifications/sami53.notifications">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -400,19 +520,30 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://E:/JavaScript/Traversy Media/Auth/app.js">
+=======
+    <entry file="file://$PROJECT_DIR$/msg-handler-class.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="25" selection-start-line="25" selection-end-line="25" selection-end-column="55" />
+        <state relative-caret-position="3588">
+          <caret line="156" column="4" selection-start-line="156" selection-start-column="4" selection-end-line="156" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tcp-server-class.js">
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="185" selection-start-line="185" selection-end-line="185" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="23" />
+        <state relative-caret-position="322">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/statics/profilePics/aa.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -528,11 +659,25 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-5235">
           <caret line="7" selection-start-line="7" selection-end-line="8" selection-end-column="38" />
+=======
+    <entry file="file://$PROJECT_DIR$/routers/indexRouter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="70" column="7" selection-start-line="70" selection-start-column="7" selection-end-line="70" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/users.router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="107" column="16" lean-forward="true" selection-start-line="107" selection-start-column="16" selection-end-line="107" selection-end-column="16" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/users.utils.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="-1840">
           <caret line="415" column="23" selection-start-line="415" selection-start-column="23" selection-end-line="415" selection-end-column="23" />
           <folding>
@@ -540,6 +685,17 @@
             <element signature="e#9015#9056#0" />
             <element signature="e#9787#9828#0" />
           </folding>
+=======
+        <state relative-caret-position="96">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/users.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="558" selection-start-column="558" selection-end-column="558" />
+>>>>>>> eeff25ff48c180859af25b8e645845ab15341f44
         </state>
       </provider>
     </entry>

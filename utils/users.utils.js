@@ -514,5 +514,7 @@ module.exports = {
     addUserPic,
     getUserProfilePic,
     updateUserProfilePic,
-    getFriendsPics
+    getFriendsPics,
+    updateUserProfilePic
 };
+

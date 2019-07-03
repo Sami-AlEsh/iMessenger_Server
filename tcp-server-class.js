@@ -37,6 +37,7 @@ class ChatServer{
         this.netServer.on('close', () => { this.serverCloseHandler(); });
         this.netServer.on('add new socket', (socket) => { this.addNewSocket(socket); });
         this.netServer.on('notify', (notification) => {
+            
             if(notification.toPlatform) this.notify(notification);
             else{
                 for(let platform of this.usersPlatforms[notification.to]){
@@ -301,6 +302,7 @@ class ChatServer{
      * @param {any} notification 
      */
     notify(notification){
+        console.log(notification);
         let socket = this.getSocket(notification.to, notification.toPlatform);
         
         if(socket === null){
@@ -333,9 +335,6 @@ class ChatServer{
             delete notification['toPlatform'];
         }
 
-        console.log(notification);
-
-
         let msg = Buffer.from(JSON.stringify(notification));
         let msgLen = Buffer.alloc(4);
         msgLen.writeUInt32LE(msg.length);
@@ -343,6 +342,7 @@ class ChatServer{
       
         socket.write(msgLen);
         socket.write(msg);
+        console.log(`notification ${notification.type} sent`);
     }
 };
 

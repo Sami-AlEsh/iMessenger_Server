@@ -73,6 +73,7 @@ router.post('/addFriend', limiterOpts, (req, res, next) => {
         
         sock.end();
     });
+   
     //-----------------------------------
    
 });
@@ -114,7 +115,7 @@ router.post('/unBlockUser',(req, res, next) => {
 });
   
 router.post('/delete', (req,res,next) => {
-    console.log(req.body);
+    //console.log(req.body);
     let deleteRes =  usersUtils.deleteUser(req.body.username, req.body.delete);
     if(deleteRes){
 
