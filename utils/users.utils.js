@@ -234,42 +234,22 @@ let deleteUser = function(currentUser, deleted){
         }
       if (user.username == currentUser) {
       let index = user.friends.indexOf(deleted);
-<<<<<<< HEAD
-      if (index !== -1){
-        user.friends = user.friends.filter(item => item !== deleted);
-        //console.log(user);
-        //console.log(usersList);
-=======
       if (index != -1){
         user.friends.splice(index,1);
         console.log(user);
         console.log(usersList);
->>>>>>> 7a9c3cc57f97d0d0c6d064e30df1a5608398afb8
         d1 = true ;
         }
       }
       else if (user.username == deleted) {
       let index = user.friends.indexOf(currentUser);
-<<<<<<< HEAD
-      if (index !== -1){
-        user.friends = user.friends.filter(item => item !== currentUser);
-        //console.log(user);
-=======
       if (index != -1){
         user.friends.splice(index,1);
         console.log(user);
->>>>>>> 7a9c3cc57f97d0d0c6d064e30df1a5608398afb8
         d2 = true ;
         }
       }
     }
-<<<<<<< HEAD
-    if (d1 && d2 ){
-        writeUsers(usersList);
-        return true ;
-    }
-=======
->>>>>>> 7a9c3cc57f97d0d0c6d064e30df1a5608398afb8
     console.log(usersList);
     return false;
 };
