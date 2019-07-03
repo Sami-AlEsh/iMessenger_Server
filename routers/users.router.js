@@ -7,6 +7,7 @@ const response = require('../shared/responseForm');
 const rateLimit = require('../shared/limiterOpts').rateLimit;
 const os = require('os');
 const ifaces = os.networkInterfaces();
+const authMiddlware = require('../middlewares/auth.middleware');
 
 
 const limiterOpts = rateLimit(1000, 1000);
@@ -166,7 +167,7 @@ router.get('/getPublicKeys/:username', async (req, res, next) => {
 });
 
 // Get single User profile pic
-router.get('/getProfilePic/:username' , async  (req, res, next) => {
+router.get('/getProfilePic/:username'  , async  (req, res, next) => {
     let ip = 'hi' ;
     let username = req.params['username'];
     usersUtils.getUserProfilePic(username).then(
@@ -237,10 +238,22 @@ router.post('/updateProfilePic',  (req, res, next) => {
     }
 });
 
-router.get('/getFriendsPics/:username', (req, res, next) => {
+router.get('/getFriendsPics/:username',  (req, res, next) => {
     let username = req.params['username'];
     if(username){
-
+            usersUtils.getFriendsPics(username)
+                .then(result => {
+                    response.status = true ;
+                    response.errors = null;
+                    response.data = result ;
+                    res.json(response);
+                })
+                .catch(err => {
+                    response.status = false ;
+                    response.errors = err;
+                    response.data = null ;
+                    res.json(response);
+                })
     }else {
         response.status = false ;
         response.errors = 'Undefined Username !';

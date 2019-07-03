@@ -1,4 +1,6 @@
 const fs = require('fs');
+const os = require('os');
+const ifaces = os.networkInterfaces();
 
 const profilePicsDir = './statics/profilePics' ;
 
@@ -403,16 +405,16 @@ let updateUserProfilePic = (username, pic) => {
     // }
 };
 
-let getUserProfilePic = (username) => {
+let getUserProfilePic =  (username) => {
     return new Promise((resolve, reject) => {
         fs.readdir(profilePicsDir, (err, files) => {
             if (err) {console.log(err); return}
             for (let file of files) {
                 let dotIndex = file.indexOf('.');
                 let fileName = file.substring(0, dotIndex);
-                console.log(fileName);
+                // console.log(fileName);
                 if (fileName == username) {
-                    console.log(file);
+                    // console.log(file);
                     resolve(file);
                 }
 
@@ -433,6 +435,52 @@ let getUserProfilePic = (username) => {
     //       return false ;
     //     }
 };
+
+
+let getFriendsPics =  (username) => {
+    return new Promise(async (resolve, reject) => {
+        let pics = { };
+        let currFriends;
+        let resF = searchForUser(username);
+        if (resF) {
+            currFriends = resF.friends;
+            for (let cf of currFriends) {
+                let ip ;
+                await getUserProfilePic(cf)
+                    .then(
+                        (pic) => {
+                            Object.keys(ifaces).forEach(function (ifname) {
+                                var alias = 0;
+
+                                ifaces[ifname].forEach(function (iface) {
+                                    if ('IPv4' !== iface.family || iface.internal !== false) {
+                                        return;
+                                    }
+                                    if (alias >= 1) {
+                                        // this single interface has multiple ipv4s
+                                    } else {
+                                        console.log(ifname, iface.address);
+                                        ip = iface.address ;
+                                    }
+                                    ++alias;
+                                });
+                            });
+                            let url = ip+':8080/statics/profilePics/'+ pic ;
+                            pics[cf] = url ;
+                        }
+                    )
+                    .catch(
+                        err => {console.log(err)}
+                    )
+
+            }
+            console.log(pics);
+            resolve (pics);
+        }
+        reject('User not Found !');
+    })
+};
+
 
 let writePicsArr = (pics) => {
     fs.writeFile('./storage/profile/pics.json', JSON.stringify(pics), (err) => {
@@ -465,5 +513,6 @@ module.exports = {
     deleteUser,
     addUserPic,
     getUserProfilePic,
-    updateUserProfilePic
+    updateUserProfilePic,
+    getFriendsPics
 };
