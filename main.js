@@ -14,9 +14,11 @@ const bodyParser = require('body-parser');
 const response = require('./shared/responseForm');
 const PORT = 8080;
 
+app.use(express.static(path.join(__dirname,'statics')));
+
+
 // Get user Profile Pic
 app.use(express.static(path.join(__dirname,'statics/profilePics')));
-
 app.get('/statics/profilePics/:name' ,(req , res)=>{
 	let name = req.params['name'];
 	res.sendFile(path.join(__dirname,'statics/profilePics/'+name));
