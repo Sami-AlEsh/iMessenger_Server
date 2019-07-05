@@ -10,7 +10,7 @@ const ifaces = os.networkInterfaces();
 const authMiddlware = require('../middlewares/auth.middleware');
 
 
-const limiterOpts = rateLimit(1000, 1000);
+const limiterOpts = rateLimit(1000, 100);
 
 
 
@@ -239,7 +239,7 @@ router.post('/updateProfilePic',  (req, res, next) => {
     }
 });
 
-router.get('/getFriendsPics/:username',  (req, res, next) => {
+router.get('/getFriendsPics/:username',authMiddlware , (req, res, next) => {
     let username = req.params['username'];
     if(username){
             usersUtils.getFriendsPics(username)

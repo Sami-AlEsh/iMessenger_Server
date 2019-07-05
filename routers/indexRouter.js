@@ -12,7 +12,8 @@ const limiterOpts = rateLimit(1000 * 60, 1000);
 
 let router = express.Router();
 
-router.post('/signup', (req, res, next) => {
+router.post('/signup', limiterOpts ,  (req, res, next) => {
+    console.log(req.body);
     if(!req.body.username) return next(new Error('username require to complete signup'));
     if(!req.body.password) return next(new Error('password require to complete signup'));
     if(!req.body.email) return next(new Error('email require to complete signup'));
@@ -24,7 +25,7 @@ router.post('/signup', (req, res, next) => {
     let result = users.addUser(user);
     if(result.err != null) return next(new Error(result.err));
 
-    console.log(req.body);
+    // console.log(req.body);
     if(req.body.img64){
         users.addUserPic(req.body.img64, req.body.username)
     }
@@ -36,6 +37,15 @@ router.post('/signup', (req, res, next) => {
             date: new Date()
         };
         let token = jwt.sign(payload, secretKey.toString());
+
+        // Send Mail Verification Here
+        /*mail.verificationMail(user.username, user.email, user.generatedCode)
+       .then((res) => {
+           console.log(res);
+       })
+       .catch((err) => {
+           console.log(err);
+});*/
 
         response.data = token;
         response.status = true;
@@ -51,6 +61,7 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login',limiterOpts ,  (req, res, next) => {
+    // console.log(req.body);
     if(!req.body.username) return next(new Error('username require to complete signup'));
     if(!req.body.password) return next(new Error('password require to complete signup'));
     if(!req.body.platform) return next(new Error('platform require to complete signup'));
@@ -88,10 +99,4 @@ router.post('/login',limiterOpts ,  (req, res, next) => {
 
 module.exports = router;
 
- /*mail.verificationMail(user.username, user.email, user.generatedCode)
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-});*/
+

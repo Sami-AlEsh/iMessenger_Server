@@ -1,6 +1,7 @@
 const fs = require('fs');
 const os = require('os');
 const ifaces = os.networkInterfaces();
+const bcrypt = require('bcryptjs');
 
 const profilePicsDir = './statics/profilePics' ;
 
@@ -45,6 +46,11 @@ let getUserObject = (body) => {
         status: body.status === undefined ? '' : body.status,
         private: body.private === undefined ? false : body.private,
     };
+
+    // bcrypt
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(body.password, salt);
+    user.password = hash ;
     if(user.platforms.indexOf(body.platform) === -1) user.platforms.push(body.platform);
     return user;
     
@@ -110,7 +116,8 @@ let checkDuplication = (users, user) => {
 let login = (username, password) => {
     let users = fetchUsers();
     for(let user of users){
-        if(user.username === username && user.password === password) return true
+        console.log(user.password);
+        if(user.username === username && bcrypt.compare(password, user.password)) return true
     }
     return false;
 };

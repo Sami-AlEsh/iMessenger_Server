@@ -137,11 +137,11 @@ class ChatServer{
      * @param {net.Socket} socket 
      */
     addNewSocket(socket){
-        if(this.users.indexOf(socket.username) === -1){
-            socket.destroy()
-            console.log(`- ${socket.username} does not exist.`);
-            return;
-        }
+        // if(this.users.indexOf(socket.username) === -1){
+        //     socket.destroy()
+        //     console.log(`- ${socket.username} does not exist.`);
+        //     return;
+        // }
 
         console.log('- new socket added ...........', socket.username,socket.remoteAddress,socket.platform);
         this.sockets.push(socket);
@@ -302,7 +302,7 @@ class ChatServer{
      * @param {any} notification 
      */
     notify(notification){
-        console.log(notification);
+        // console.log(notification);
         let socket = this.getSocket(notification.to, notification.toPlatform);
         
         if(socket === null){
@@ -339,7 +339,7 @@ class ChatServer{
         let msgLen = Buffer.alloc(4);
         msgLen.writeUInt32LE(msg.length);
 
-      
+      console.log(notification);
         socket.write(msgLen);
         socket.write(msg);
         console.log(`notification ${notification.type} sent`);

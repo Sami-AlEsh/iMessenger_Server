@@ -18,7 +18,7 @@ exports.verificationMail = function (username, email,code) {
             html:'<h3 style="margin: auto auto ; display:block">Welcome To Your New Account </h3>'+
                 '<p>Your Username is : </p>' + username + 'And You Code is /Need Some Random Generator Here !!/' + code +
                 '<p>For any question please contact us @ : _____</p>' +
-                '<p>Best Regards, IMess Team !</p>'
+                '<p>Best Regards, IMessenger Team !</p>'
         };
         transporter.sendMail(mailOpts,(err, result)=>{
             if(err){
